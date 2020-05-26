@@ -1,5 +1,7 @@
 package com.example.empleos.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Vacant {
@@ -8,6 +10,15 @@ public class Vacant {
     private String description;
     private Date date;
     private Double salary;
+
+    public Vacant(){
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            setDate(sdf.parse("08/02/2019"));
+        }catch (ParseException e){
+            System.out.println(e.getMessage());
+        }
+    }
 
     public Integer getId() {
         return id;
@@ -37,7 +48,7 @@ public class Vacant {
         return date;
     }
 
-    public void setDate(Date date) {
+    private void setDate(Date date) {
         this.date = date;
     }
 
