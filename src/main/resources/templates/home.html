@@ -6,7 +6,11 @@
 </head>
 <body>
 <h1>Bienvenido a EmpleosApp</h1>
-<h1 th:text="${message}"></h1>
-<h2>Today is [[${date}]]</h2>
+<h2>Oferta de trabajo</h2>
+<h3 th:text="'Titulo: '+${name}"></h3>
+<h3 th:text="'Fecha Publicacion: '+${date}"></h3>
+<h3 th:text="'Salario: '+${salary}"></h3>
+<h3 th:text="'Vigente: '+${valid}"></h3>
+
 </body>
 </html>
