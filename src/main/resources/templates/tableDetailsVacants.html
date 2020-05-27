@@ -19,6 +19,8 @@
         <th>Salario</th>
         <th>Descripcion</th>
         <th>Destacado</th>
+        <th>Detalle</th>
+        <th>Borrar</th>
     </tr>
     <tr th:each="tempVacant: ${vacants}">
         <td>
@@ -33,7 +35,12 @@
             <span th:if="${tempVacant.outstanding==true}" class="badge badge-success">Si</span>
             <span th:unless="${tempVacant.outstanding==true}" class="badge badge-danger">No</span>
         </td>
-
+        <td>
+            <a th:href="@{/vacants/view/{id} (id = ${tempVacant.id})}" class="btn btn-success">Detalle</a>
+        </td>
+        <td>
+            <a th:href="@{/vacants/delete(id = ${tempVacant.id})}" class="btn btn-danger">Eliminar</a>
+        </td>
     </tr>
 
 </table>
