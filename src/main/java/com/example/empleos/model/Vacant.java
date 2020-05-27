@@ -10,14 +10,30 @@ public class Vacant {
     private String description;
     private Date date;
     private Double salary;
+    private boolean outstanding; // Empleo Destacado
+    private String image;
 
     public Vacant(){
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             setDate(sdf.parse("08/02/2019"));
+            setImage("no-image.png");
+            setOutstanding(false);
         }catch (ParseException e){
             System.out.println(e.getMessage());
         }
+    }
+
+    public boolean isOutstanding() {
+        return outstanding;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public Integer getId() {
@@ -26,6 +42,14 @@ public class Vacant {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public boolean getOutstanding() {
+        return outstanding;
+    }
+
+    public void setOutstanding(boolean outstanding) {
+        this.outstanding = outstanding;
     }
 
     public String getName() {

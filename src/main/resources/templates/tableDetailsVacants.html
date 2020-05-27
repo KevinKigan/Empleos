@@ -3,28 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <title>Listado de Vacantes</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://code.jquery.com/jquery-3.5.1.min.js">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
 </head>
 <body>
-    <h1 class="text-primary">Lista de Vacantes</h1>
-    <table style="margin-top: 50px" class="table table-dark table-striped table-bordered table-hover">
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Fecha de Publicacion</th>
-            <th>Salario</th>
-            <th>Descripcion</th>
-        </tr>
-        <tr th:each="tempVacant: ${vacants}">
-            <td th:text="${tempVacant.id}"></td>
-            <td th:text="${tempVacant.name}"></td>
-            <td th:text="${tempVacant.date}"></td>
-            <td th:text="${tempVacant.salary}"></td>
-            <td th:text="${tempVacant.description}"></td>
-        </tr>
+<h1 class="text-primary">Lista de Vacantes</h1>
+<table style="margin-top: 50px" class="table table-dark table-striped table-bordered table-hover">
+    <tr>
+        <th>Logo</th>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Fecha de Publicacion</th>
+        <th>Salario</th>
+        <th>Descripcion</th>
+        <th>Destacado</th>
+    </tr>
+    <tr th:each="tempVacant: ${vacants}">
+        <td>
+            <img th:src="@{/images/{img} (img = ${tempVacant.image})}" class="border border-primary rounded" width="50px" height="50px">
+        </td>
+        <td th:text="${tempVacant.id}"></td>
+        <td th:text="${tempVacant.name}"></td>
+        <td th:text="${tempVacant.date}"></td>
+        <td th:text="${tempVacant.salary}"></td>
+        <td th:text="${tempVacant.description}"></td>
+        <td>
+            <span th:if="${tempVacant.outstanding==true}" class="badge badge-success">Si</span>
+            <span th:unless="${tempVacant.outstanding==true}" class="badge badge-danger">No</span>
+        </td>
 
-    </table>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    </tr>
+
+</table>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
 </body>
 </html>
