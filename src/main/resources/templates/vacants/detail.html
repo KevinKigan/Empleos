@@ -5,6 +5,10 @@
     <title>Detalle de la vancante</title>
 </head>
 <body>
-<h1 th:text="'El id de la vacante es:'+ ${idVacant}"></h1>
+<h1>Detalle de la oferta de trabajo</h1>
+<h3 th:text="'Nombre: '+${vacant.name}"></h3>
+<h3 th:text="'Fecha Publicacion: '+${vacant.date}"></h3>
+<h3 th:text="'Salario: '+${vacant.salary}"></h3>
+<h3 th:text="'Descripcion: '+${vacant.description}"></h3>
 </body>
 </html>
