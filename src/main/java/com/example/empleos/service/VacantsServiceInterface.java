@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface VacantsServiceInterface {
     List<Vacant> findAll();
+    Vacant findById(Integer id);
 }

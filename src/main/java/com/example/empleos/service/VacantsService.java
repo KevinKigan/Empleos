@@ -1,10 +1,12 @@
 package com.example.empleos.service;
 
 import com.example.empleos.model.Vacant;
+import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
 
+@Service
 public class VacantsService implements VacantsServiceInterface {
 
     private List<Vacant> list = null;
@@ -51,9 +53,29 @@ public class VacantsService implements VacantsServiceInterface {
         list.add(vacant_4);
     }
 
-    
+    /**
+     * Metodo para buscar todas las vacantes
+     *
+     * @return vacantes
+     */
+
     @Override
     public List<Vacant> findAll() {
         return list;
+    }
+
+    /**
+     * Metodo para retornar una vacante de la lista de empleos
+     * @param id Numero de identificacion de la vancante a buscar
+     * @return Vacante encontrada
+     */
+
+    @Override
+    public Vacant findById(Integer id) {
+        try {
+            return list.stream().filter(vac -> vac.getId() == id).findFirst().get();
+        }catch (Exception e) {
+            return null;
+        }
     }
 }
