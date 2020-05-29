@@ -16,7 +16,7 @@ public class Vacant {
     public Vacant(){
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            setDate(sdf.parse("08/02/2019"));
+            setDate(sdf.parse(sdf.format( new Date())));
             setImage("no-image.png");
             setOutstanding(false);
         }catch (ParseException e){
