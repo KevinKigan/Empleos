@@ -25,14 +25,8 @@ public class HomeController {
      */
     @GetMapping("/")
     public String showHome(Model model) {
-        String name = "Auxiliar de Contabilidad";
-        Date pubDate = new Date();
-        double salary = 9000.0;
-        boolean valid = true;
-        model.addAttribute("name", name);
-        model.addAttribute("date", pubDate);
-        model.addAttribute("salary", salary);
-        model.addAttribute("valid", valid);
+        List<Vacant> list = vacantsService.findAll();
+        model.addAttribute("vacants", list);
         return "home";
     }
 
