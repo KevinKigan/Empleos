@@ -5,10 +5,7 @@ import com.example.empleos.service.VacantsServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/vacants")
@@ -29,6 +26,24 @@ public class VancantsController {
         System.out.println("Borrando vacante con ID: "+idVacant);
         model.addAttribute("id", idVacant);
         return "vacants/delete";
+
+    }
+
+    @GetMapping("/create")
+    public String create(Model model){
+
+        return "vacants/formVacant";
+
+    }
+
+    @PostMapping("/save")
+    public String save(@RequestParam("name") String name,                @RequestParam("description") String description,
+                       @RequestParam("state") String state,              @RequestParam("date") String date,
+                       @RequestParam("outstanding") Boolean outstanding, @RequestParam("salary") double salary,
+                       @RequestParam("details") String details){
+        System.out.println("hola");
+
+        return "vacants/listVacants";
 
     }
 }

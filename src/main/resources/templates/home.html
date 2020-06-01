@@ -11,14 +11,14 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <!-- Custom styles for this template -->
-    <link th:href="@{/bootstrap/css/jumbotron.css}" rel="stylesheet">
-    <link th:href="@{/bootstrap/css/sticky-footer-navbar.css}" rel="stylesheet">
+    <link th:href="@{/static/bootstrap/css/jumbotron.css}" rel="stylesheet">
+    <link th:href="@{/static/bootstrap/css/sticky-footer-navbar.css}" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/static/bootstrap/js/bootstrap.js}"></script>
 </head>
 <body>
 
-<header th:insert="fragments/menu :: main-menu">
+<header th:insert="fragments/header :: main-menu">
 </header>
 
 <main role="main">
