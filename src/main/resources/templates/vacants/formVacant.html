@@ -64,8 +64,8 @@
 
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="estatus">Estatus</label>
-                                <select class="form-control" name="state" id="estatus">
+                                <label for="status">Estado</label>
+                                <select class="form-control" name="status" id="status">
                                     <option value="Creada">Creada</option>
                                     <option value="Aprobada">Aprobada</option>
                                     <option value="Eliminada">Eliminada</option>
@@ -74,9 +74,10 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="date">Fecha de Publicación</label>
-                                <input type="text" class="form-control" name="date" id="date"
-                                       placeholder="Fecha de publicacion" required="required">
+                                <label for="dateRelease">Fecha de Publicación</label>
+                                <input type="text" class="form-control" data-date-format="dd/mm/yyyy" name="dateRelease" id="dateRelease" placeholder="Fecha de publicacion" required="required">
+<!--                                <input type="text" class="form-control" name="dateRelease" id="dateRelease"-->
+<!--                                       placeholder="Fecha de publicacion" required="required">-->
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -136,11 +137,11 @@
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script th:src="@{/static/tinymce/tinymce.min.js}"></script>
+<script th:src="@{/tinymce/tinymce.min.js}"></script>
 <script>
 
     $(function () {
-            $("#date").datepicker({dateFormat: 'dd-mm-yy'});
+            $("#dateRelease").datepicker({dateFormat: 'dd/mm/yy'});
         }
     );
 

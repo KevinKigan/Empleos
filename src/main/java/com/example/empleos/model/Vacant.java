@@ -8,18 +8,27 @@ public class Vacant {
     private Integer id;
     private String name;
     private String description;
-    private Date date;
+    private Date dateRelease;
+//private String dateRelease;
+
+//    public void setDateRelease(String dateRelease) {
+//        this.dateRelease = dateRelease;
+//    }
+
     private Double salary;
     private boolean outstanding; // Empleo Destacado
     private String image;
+    private String status;
+    private String details;
 
-    public Vacant(){
+
+    public Vacant() {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            setDate(sdf.parse(sdf.format( new Date())));
+            setDateRelease(sdf.parse(sdf.format(new Date())));
             setImage("no-image.png");
             setOutstanding(false);
-        }catch (ParseException e){
+        } catch (ParseException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -31,6 +40,24 @@ public class Vacant {
     public String getImage() {
         return image;
     }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+
 
     public void setImage(String image) {
         this.image = image;
@@ -68,12 +95,12 @@ public class Vacant {
         this.description = description;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getDateRelease() {
+        return dateRelease;
     }
 
-    private void setDate(Date date) {
-        this.date = date;
+    private void setDateRelease(Date dateRelease) {
+        this.dateRelease = dateRelease;
     }
 
     public Double getSalary() {
@@ -84,14 +111,19 @@ public class Vacant {
         this.salary = salary;
     }
 
+
     @Override
     public String toString() {
         return "Vacant{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", date=" + date +
+                ", dateRelease=" + dateRelease +
                 ", salary=" + salary +
+                ", outstanding=" + outstanding +
+                ", image='" + image + '\'' +
+                ", status='" + status + '\'' +
+                ", details='" + details + '\'' +
                 '}';
     }
 }

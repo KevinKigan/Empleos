@@ -1,10 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>EmpleosApp | Listado de Ofertas de Trabajo</title>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <!-- Custom styles for this template -->
+    <link th:href="@{/bootstrap/css/jumbotron.css}" rel="stylesheet">
+    <link th:href="@{/bootstrap/css/sticky-footer-navbar.css}" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script th:src="@{/static/bootstrap/js/bootstrap.js}"></script>
 </head>
+
 <body>
-    <h1>Vista de vancantes</h1>
+<header th:insert="fragments/header :: main-menu"></header>
+
+<main role="main">
+    <hr>
+    <div class="container">
+
+        <div class="card">
+            <h4 class="card-header"><strong>Listado de Ofertas de Trabajo</strong></h4>
+            <div class="card-body">
+                <a class="btn btn-primary" href="#" title="Crear nueva Oferta de Trabajo" role="button"><i class="fas fa-file" aria-hidden="true"></i> Nueva</a>
+                <hr>
+                <table class="table table-hover">
+                    <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Categoría</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Fecha Pub.</th>
+                        <th scope="col">Estatus</th>
+                        <th scope="col">Destacada</th>
+                        <th scope="col">Operaciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="vacant: ${vacants}">
+                        <td></td>
+                        <td th:text="${vacant.name}"></td>
+                        <td th:text="${vacant.dateRelease}"></td>
+                        <td th:text="${vacant.status}"></td>
+                        <td th:text="${vacant.outstanding==true ? 'SI' : 'NO' }"></td>
+                        <td>
+                            <a href="#" class="btn btn-success btn-sm" role="button" title="Editar el registro."><i class="fas fa-pencil-alt" aria-hidden="true"></i></a>
+                            <a href="#" onclick="return confirm('¿Estas seguro?')" class="btn btn-success btn-sm" role="button" title="Eliminar el registro."><i class="fas fa-trash" aria-hidden="true"></i></a>
+                        </td>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div> <!-- /container -->
+
+</main>
+
+<footer class="footer"  th:insert="fragments/footer :: footer"></footer>
+
 </body>
 </html>
