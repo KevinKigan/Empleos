@@ -16,7 +16,7 @@
     <link th:href="@{/bootstrap/css/sticky-footer-navbar.css}" rel="stylesheet">
     <link href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script th:src="@{/static/bootstrap/js/bootstrap.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
 </head>
 
 <body>
@@ -29,7 +29,9 @@
         <div class="card">
             <h4 class="card-header"><strong>Listado de Ofertas de Trabajo</strong></h4>
             <div class="card-body">
-                <a class="btn btn-primary" href="#" title="Crear nueva Oferta de Trabajo" role="button"><i class="fas fa-file" aria-hidden="true"></i> Nueva</a>
+                <a class="btn btn-primary" th:href="@{/vacants/create}" title="Crear nueva Oferta de Trabajo" role="button"><i class="fas fa-file" aria-hidden="true"></i> Nueva</a>
+                <br><br>
+                <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
                 <hr>
                 <table class="table table-hover">
                     <thead class="thead-light">
@@ -51,7 +53,7 @@
                         <td th:text="${vacant.outstanding==true ? 'SI' : 'NO' }"></td>
                         <td>
                             <a href="#" class="btn btn-success btn-sm" role="button" title="Editar el registro."><i class="fas fa-pencil-alt" aria-hidden="true"></i></a>
-                            <a href="#" onclick="return confirm('¿Estas seguro?')" class="btn btn-success btn-sm" role="button" title="Eliminar el registro."><i class="fas fa-trash" aria-hidden="true"></i></a>
+                            <a href="#" onclick="return confirm('¿Seguro que quieres eliminar?')" class="btn btn-success btn-sm" role="button" title="Eliminar el registro."><i class="fas fa-trash" aria-hidden="true"></i></a>
                         </td>
                     </tbody>
                 </table>

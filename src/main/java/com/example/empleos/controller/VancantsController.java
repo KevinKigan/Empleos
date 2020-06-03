@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -37,14 +38,13 @@ public class VancantsController {
     }
 
     @GetMapping("/create")
-    public String create(Model model){
-
+    public String create(Vacant vacant){
         return "vacants/formVacant";
 
     }
 
     @PostMapping("/save")
-    public String save(Vacant vacant, BindingResult bindingResult){
+    public String save(Vacant vacant, BindingResult bindingResult, RedirectAttributes attributes){
         if(bindingResult.hasErrors()){
             for (ObjectError error: bindingResult.getAllErrors()){
                 System.out.println("Error: "+error.getDefaultMessage());
@@ -52,8 +52,9 @@ public class VancantsController {
             return "vacants/formVacant";
         }
         vacantsService.save(vacant);
+        attributes.addFlashAttribute ("msg", "Registro Guardado");
         System.out.println(vacant);
-        return "vacants/formVacant";
+        return "redirect:/vacants/index";
 
     }
 

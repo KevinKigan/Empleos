@@ -31,7 +31,14 @@
         <div class="card">
             <h4 class="card-header"><strong>Datos de la oferta de trabajo</strong></h4>
             <div class="card-body">
-                <form th:action="@{/vacants/save}" method="post">
+<!--                th:object para vincular el html con el objeto del modelo, vacant-->
+                <form th:action="@{/vacants/save}" method="post" th:object="${vacant}">
+                    <div th:if="${#fields.hasErrors('*')}"class='alert alert-danger' role='alert'>
+                        Por favor se han de corregir los siguientes errores:
+                        <ul>
+                            <li th:each="err : ${#fields.errors('*')}" th:text="${err}"/>
+                        </ul>
+                    </div>
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
@@ -145,15 +152,15 @@
         }
     );
 
-    /*
+
     tinymce.init({
-        selector: '#detalles',
+        selector: '#details',
         plugins: "textcolor, table lists code",
         toolbar: " undo redo | bold italic | alignleft aligncenter alignright alignjustify \n\
                   | bullist numlist outdent indent | forecolor backcolor table code"
     });
 
-    */
+
 
 </script>
 </body>
