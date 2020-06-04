@@ -21,6 +21,7 @@ public class VacantsService implements VacantsServiceInterface {
         vacant_1.setDescription("Solicitamos ingeniero civil para diseñar puente peatonal");
         vacant_1.setSalary(8500.0);
         vacant_1.setOutstanding(true);
+        vacant_1.setStatus("Creada");
         vacant_1.setImage("empresa1.png");
 
         // Creamos oferta de trabajo 2
@@ -29,6 +30,7 @@ public class VacantsService implements VacantsServiceInterface {
         vacant_2.setName("Contador publico");
         vacant_2.setDescription("Empresa importante solicita contador con 5 años de experiencia titulado");
         vacant_2.setSalary(12000.0);
+        vacant_2.setStatus("Creada");
         vacant_2.setOutstanding(false);
         vacant_2.setImage("empresa2.png");
         // Creamos oferta de trabajo 3
@@ -37,6 +39,7 @@ public class VacantsService implements VacantsServiceInterface {
         vacant_3.setName("Ingeniero Electrico");
         vacant_3.setDescription("Solicitamos ingeniero electrico para mantener una instalacion electrica");
         vacant_3.setSalary(10500.0);
+        vacant_3.setStatus("Creada");
         vacant_3.setOutstanding(false);
 
         // Creamos oferta de trabajo 4
@@ -45,6 +48,7 @@ public class VacantsService implements VacantsServiceInterface {
         vacant_4.setName("Diseñador Gráfico");
         vacant_4.setDescription("Solicitamos diseñador grafico titulado para diseñar publicidad de la empresa");
         vacant_4.setSalary(7500.0);
+        vacant_4.setStatus("Creada");
         vacant_4.setOutstanding(true);
 
         list.add(vacant_1);
@@ -77,5 +81,10 @@ public class VacantsService implements VacantsServiceInterface {
         }catch (Exception e) {
             return null;
         }
+    }
+
+    @Override
+    public void save(Vacant vacant) {
+        list.add(vacant);
     }
 }

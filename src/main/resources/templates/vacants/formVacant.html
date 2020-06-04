@@ -1,0 +1,164 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>EmpleosApp | Creación de Ofertas de Trabajo</title>
+    <link rel="stylesheet" href="https://code.jquery.com/jquery-3.5.1.min.js">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link th:href="@{/bootstrap/css/jumbotron.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link th:href="@{/bootstrap/css/sticky-footer-navbar.css}" rel="stylesheet">
+    <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" >
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
+
+</head>
+
+<body>
+
+<header th:insert="fragments/header :: main-menu">
+</header>
+
+<main role="main" class="mt-4">
+    <div class="container">
+
+        <div class="card">
+            <h4 class="card-header"><strong>Datos de la oferta de trabajo</strong></h4>
+            <div class="card-body">
+<!--                th:object para vincular el html con el objeto del modelo, vacant. Esto se hace para los errores y para mantener los campos cuando hay errores-->
+                <form th:action="@{/vacants/save}" method="post" th:object="${vacant}">
+                    <div th:if="${#fields.hasErrors('*')}"class='alert alert-danger' role='alert'>
+                        Por favor se han de corregir los siguientes errores:
+                        <ul>
+                            <li th:each="err : ${#fields.errors('*')}" th:text="${err}"/>
+                        </ul>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="name">Nombre</label>
+                                <input type="text" class="form-control" th:field="*{name}" id="name" name="name"
+                                       placeholder="Titulo de la oferta de trabajo" required="required">
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <label for="description">Descripción</label>
+                                <input type="text" class="form-control" th:field="*{description}" id="description" name="description"
+                                       placeholder="Breve descripcion de la oferta de trabajo" required="required">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="category">Categoría</label>
+                                <select class="form-control" name="category" th:field="*{category.id}">
+                                    <option th:each="category: ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="status">Estado</label>
+                                <select class="form-control" th:field="*{status}" name="status" id="status">
+                                    <option value="Creada">Creada</option>
+                                    <option value="Aprobada">Aprobada</option>
+                                    <option value="Eliminada">Eliminada</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="dateRelease">Fecha de Publicación</label>
+                                <!--th:field="*{dateRelease}" -->
+                                <input type="text" class="form-control"  data-date-format="dd/mm/yyyy" name="dateRelease" id="dateRelease" placeholder="Fecha de publicacion" required="required">
+<!--                                <input type="text" class="form-control" name="dateRelease" id="dateRelease"-->
+<!--                                       placeholder="Fecha de publicacion" required="required">-->
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-check">
+                                <label class="form-check-label" for="outstanding"></label><br>
+                                <input class="form-check-input" th:field="*{outstanding}" type="radio" name="outstanding" id="outstanding" value="1"
+                                       checked="checked">
+                                <label class="form-check-label" for="outstanding">Destacado</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" th:field="*{outstanding}" type="radio" name="outstanding" id="outstanding2" value="0">
+                                <label class="form-check-label" for="outstanding2">No Destacado</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="salary">Salario Ofrecido (Aprox)</label>
+                                <input type="text" class="form-control" th:field="*{salary}" name="salary" id="salary"
+                                       placeholder="Salario aproximado." required="required">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="ImageFile">Imagen</label>
+                                <input type="file" class="form-control-file" name="ImageFile" id="ImageFile">
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <label for="details"><strong>Detalles</strong></label>
+                                <textarea class="form-control" th:field="*{details}" name="details" id="details" rows="7"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="image">Imagen/Logo</label>
+                            <img class="rounded mx-auto d-block" src=""
+                                 alt="Generic placeholder image" width="200" height="200">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </form>
+            </div>
+        </div>
+    </div> <!-- /container -->
+
+</main>
+<br>
+<footer class="footer"  th:insert="fragments/footer :: footer"></footer>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script th:src="@{/tinymce/tinymce.min.js}"></script>
+<script>
+
+    $(function () {
+            $("#dateRelease").datepicker({dateFormat: 'dd/mm/yy'});
+        }
+    );
+
+
+    tinymce.init({
+        selector: '#details',
+        plugins: "textcolor, table lists code",
+        toolbar: " undo redo | bold italic | alignleft aligncenter alignright alignjustify \n\
+                  | bullist numlist outdent indent | forecolor backcolor table code"
+    });
+
+
+
+</script>
+</body>
+</html>
