@@ -9,17 +9,12 @@ public class Vacant {
     private String name;
     private String description;
     private Date dateRelease;
-//private String dateRelease;
-
-//    public void setDateRelease(String dateRelease) {
-//        this.dateRelease = dateRelease;
-//    }
-
     private Double salary;
     private boolean outstanding; // Empleo Destacado
     private String image;
     private String status;
     private String details;
+    private Category category;
 
 
     public Vacant() {
@@ -111,6 +106,13 @@ public class Vacant {
         this.salary = salary;
     }
 
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
     @Override
     public String toString() {
@@ -124,6 +126,7 @@ public class Vacant {
                 ", image='" + image + '\'' +
                 ", status='" + status + '\'' +
                 ", details='" + details + '\'' +
+                ", category=" + category +
                 '}';
     }
 }

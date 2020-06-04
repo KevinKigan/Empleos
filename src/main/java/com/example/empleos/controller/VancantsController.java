@@ -1,6 +1,7 @@
 package com.example.empleos.controller;
 
 import com.example.empleos.model.Vacant;
+import com.example.empleos.service.CategoriesServiceInterface;
 import com.example.empleos.service.VacantsServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -22,6 +23,9 @@ public class VancantsController {
     @Autowired
     private VacantsServiceInterface vacantsService;
 
+    @Autowired
+    private CategoriesServiceInterface categoriesService;
+
     @GetMapping("/view/{id}")
     public String showVacant(@PathVariable("id") int idVacant, Model model){
         Vacant vacant = vacantsService.findById(idVacant);
@@ -38,7 +42,8 @@ public class VancantsController {
     }
 
     @GetMapping("/create")
-    public String create(Vacant vacant){
+    public String create(Vacant vacant, Model model){
+        model.addAttribute("categories", categoriesService.findAll());
         return "vacants/formVacant";
 
     }

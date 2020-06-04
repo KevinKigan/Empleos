@@ -31,7 +31,7 @@
         <div class="card">
             <h4 class="card-header"><strong>Datos de la oferta de trabajo</strong></h4>
             <div class="card-body">
-<!--                th:object para vincular el html con el objeto del modelo, vacant-->
+<!--                th:object para vincular el html con el objeto del modelo, vacant. Esto se hace para los errores y para mantener los campos cuando hay errores-->
                 <form th:action="@{/vacants/save}" method="post" th:object="${vacant}">
                     <div th:if="${#fields.hasErrors('*')}"class='alert alert-danger' role='alert'>
                         Por favor se han de corregir los siguientes errores:
@@ -43,14 +43,14 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="name">Nombre</label>
-                                <input type="text" class="form-control" id="name" name="name"
+                                <input type="text" class="form-control" th:field="*{name}" id="name" name="name"
                                        placeholder="Titulo de la oferta de trabajo" required="required">
                             </div>
                         </div>
                         <div class="col-md-9">
                             <div class="form-group">
                                 <label for="description">Descripción</label>
-                                <input type="text" class="form-control" id="description" name="description"
+                                <input type="text" class="form-control" th:field="*{description}" id="description" name="description"
                                        placeholder="Breve descripcion de la oferta de trabajo" required="required">
                             </div>
                         </div>
@@ -58,13 +58,9 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="categoria">Categoría</label>
-                                <select class="form-control" name="category" id="categoria">
-                                    <option value="1">Ventas</option>
-                                    <option value="2">Contabilidad</option>
-                                    <option value="3">Transporte</option>
-                                    <option value="4">Informatica</option>
-                                    <option value="5">Construccion</option>
+                                <label for="category">Categoría</label>
+                                <select class="form-control" name="category" th:field="*{category.id}">
+                                    <option th:each="category: ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
                                 </select>
                             </div>
                         </div>
@@ -72,7 +68,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="status">Estado</label>
-                                <select class="form-control" name="status" id="status">
+                                <select class="form-control" th:field="*{status}" name="status" id="status">
                                     <option value="Creada">Creada</option>
                                     <option value="Aprobada">Aprobada</option>
                                     <option value="Eliminada">Eliminada</option>
@@ -82,7 +78,8 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="dateRelease">Fecha de Publicación</label>
-                                <input type="text" class="form-control" data-date-format="dd/mm/yyyy" name="dateRelease" id="dateRelease" placeholder="Fecha de publicacion" required="required">
+                                <!--th:field="*{dateRelease}" -->
+                                <input type="text" class="form-control"  data-date-format="dd/mm/yyyy" name="dateRelease" id="dateRelease" placeholder="Fecha de publicacion" required="required">
 <!--                                <input type="text" class="form-control" name="dateRelease" id="dateRelease"-->
 <!--                                       placeholder="Fecha de publicacion" required="required">-->
                             </div>
@@ -90,12 +87,12 @@
                         <div class="col-md-3">
                             <div class="form-check">
                                 <label class="form-check-label" for="outstanding"></label><br>
-                                <input class="form-check-input" type="radio" name="outstanding" id="outstanding" value="1"
+                                <input class="form-check-input" th:field="*{outstanding}" type="radio" name="outstanding" id="outstanding" value="1"
                                        checked="checked">
                                 <label class="form-check-label" for="outstanding">Destacado</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="outstanding" id="outstanding2" value="0">
+                                <input class="form-check-input" th:field="*{outstanding}" type="radio" name="outstanding" id="outstanding2" value="0">
                                 <label class="form-check-label" for="outstanding2">No Destacado</label>
                             </div>
                         </div>
@@ -104,7 +101,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="salary">Salario Ofrecido (Aprox)</label>
-                                <input type="text" class="form-control" name="salary" id="salary"
+                                <input type="text" class="form-control" th:field="*{salary}" name="salary" id="salary"
                                        placeholder="Salario aproximado." required="required">
                             </div>
                         </div>
@@ -120,7 +117,7 @@
                         <div class="col-md-9">
                             <div class="form-group">
                                 <label for="details"><strong>Detalles</strong></label>
-                                <textarea class="form-control" name="details" id="details" rows="7"></textarea>
+                                <textarea class="form-control" th:field="*{details}" name="details" id="details" rows="7"></textarea>
                             </div>
                         </div>
                         <div class="col-md-3">
