@@ -32,7 +32,7 @@
             <h4 class="card-header"><strong>Datos de la oferta de trabajo</strong></h4>
             <div class="card-body">
 <!--                th:object para vincular el html con el objeto del modelo, vacant. Esto se hace para los errores y para mantener los campos cuando hay errores-->
-                <form th:action="@{/vacants/save}" method="post" th:object="${vacant}">
+                <form th:action="@{/vacants/save}" method="post" th:object="${vacant}" enctype="multipart/form-data">
                     <div th:if="${#fields.hasErrors('*')}"class='alert alert-danger' role='alert'>
                         Por favor se han de corregir los siguientes errores:
                         <ul>
@@ -107,8 +107,8 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="ImageFile">Imagen</label>
-                                <input type="file" class="form-control-file" name="ImageFile" id="ImageFile">
+                                <label for="imageFile">Imagen</label>
+                                <input type="file" class="form-control-file" name="imageFile" id="imageFile">
                             </div>
                         </div>
                     </div>
