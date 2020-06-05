@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public class VacantsService implements VacantsServiceInterface {
 
-    private List<Vacant> list = null;
+    private List<Vacant> list;
 
     public VacantsService() {
         list = new LinkedList<>();
