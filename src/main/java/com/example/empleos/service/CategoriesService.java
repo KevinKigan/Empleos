@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public class CategoriesService implements CategoriesServiceInterface{
 
-    private LinkedList<Category> list = null;
+    private LinkedList<Category> list;
 
     @Override
     public void save(Category category) {
@@ -17,10 +17,7 @@ public class CategoriesService implements CategoriesServiceInterface{
     }
 
     @Override
-    public List<Category> findAll() {
-
-        return list;
-    }
+    public List<Category> findAll() { return list; }
 
     @Override
     public Category findById(int id) {
@@ -32,9 +29,7 @@ public class CategoriesService implements CategoriesServiceInterface{
     }
 
     @Override
-    public Integer categoriesSize() {
-        return list.size();
-    }
+    public Integer categoriesSize() { return list.size(); }
 
     public CategoriesService(){
         list = new LinkedList<>();
@@ -75,15 +70,14 @@ public class CategoriesService implements CategoriesServiceInterface{
         cat6.setName("Desarrollo de software");
         cat6.setDescription("Trabajo para programadores");
 
-        /**
-         * Agregamos los 5 objetos de tipo Category a la lista ...
-         */
+
+        // Agregamos los 5 objetos de tipo Category a la lista ...
+
         list.add(cat1);
         list.add(cat2);
         list.add(cat3);
         list.add(cat4);
         list.add(cat5);
         list.add(cat6);
-
     }
 }
