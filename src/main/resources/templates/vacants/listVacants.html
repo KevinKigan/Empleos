@@ -46,7 +46,7 @@
                     </thead>
                     <tbody>
                     <tr th:each="vacant: ${vacants}">
-                        <td></td>
+                        <td th:text="${vacant.category.name}"></td>
                         <td th:text="${vacant.name}"></td>
                         <td th:text="${vacant.dateRelease}"></td>
                         <td th:text="${vacant.status}"></td>

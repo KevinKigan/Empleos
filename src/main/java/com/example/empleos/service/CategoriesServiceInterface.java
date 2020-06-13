@@ -9,6 +9,4 @@ public interface CategoriesServiceInterface {
     void save(Category category);
     List<Category> findAll();
     Category findById(int id);
-
-    Integer categoriesSize();
 }

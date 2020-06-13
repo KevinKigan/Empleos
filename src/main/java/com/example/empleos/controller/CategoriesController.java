@@ -42,7 +42,6 @@ public class CategoriesController {
             }
             return "categories/formCategory";
         }
-        category.setId(categoriesService.categoriesSize()+1);
         attributes.addFlashAttribute ("msg", "Registro Guardado");
         categoriesService.save(category);
         return "redirect:/categories/index";

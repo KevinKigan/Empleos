@@ -1,10 +1,15 @@
 package com.example.empleos.model;
 
+import javax.persistence.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Entity
+@Table(name="Vacants")
 public class Vacant {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
     private String description;
@@ -14,7 +19,11 @@ public class Vacant {
     private String image;
     private String status;
     private String details;
+    //@Transient //Ignora el mapeo par ael siguiente atributo
+    @OneToOne
+    @JoinColumn(name = "idCategory")
     private Category category;
+
 
 
     public Vacant() {

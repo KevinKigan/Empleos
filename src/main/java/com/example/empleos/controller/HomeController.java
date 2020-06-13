@@ -23,7 +23,7 @@ public class HomeController {
      * @param model Modelo para la vista
      * @return Nombre del archivo html
      */
-    @GetMapping("/")
+    @GetMapping("/home")
     public String showHome(Model model) {
         List<Vacant> list = vacantsService.findAll();
         model.addAttribute("vacants", list);
