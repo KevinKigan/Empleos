@@ -20,7 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class VancantsController {
 
     @Value("${empleos.pathImages}")
-    String pathImages;
+    private String pathImages;
 
     @Autowired
     private VacantsServiceInterface vacantsService;

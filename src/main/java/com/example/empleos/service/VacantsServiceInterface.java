@@ -8,4 +8,5 @@ public interface VacantsServiceInterface {
     List<Vacant> findAll();
     Vacant findById(Integer id);
     void save(Vacant vacant);
+    List<Vacant> findOutstanding();
 }

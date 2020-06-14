@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -25,9 +26,15 @@ public class HomeController {
      */
     @GetMapping("/home")
     public String showHome(Model model) {
-        List<Vacant> list = vacantsService.findAll();
-        model.addAttribute("vacants", list);
+//        List<Vacant> list = vacantsService.findOutstanding();
+//        model.addAttribute("vacants", list);
         return "home";
+    }
+
+
+    @ModelAttribute // Model Attribute añade al modelo atributos que pueden ser utilizados por el controlador
+    public void setGenerics(Model model){
+        model.addAttribute("vacants", vacantsService.findOutstanding());
     }
 
 

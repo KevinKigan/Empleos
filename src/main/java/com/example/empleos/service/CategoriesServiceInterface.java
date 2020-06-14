@@ -1,6 +1,7 @@
 package com.example.empleos.service;
 
 import com.example.empleos.model.Category;
+import com.example.empleos.model.Vacant;
 
 import java.util.List;
 

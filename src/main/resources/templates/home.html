@@ -49,13 +49,13 @@
             <hr>
             <div class="row" th:each="vacant:${vacants}">
                 <div class="col-md-3">
-                    <img class="rounded mx-auto d-block" th:src="@{/images/{img} (img = ${vacant.image})}" alt="Generic placeholder image" width="220" height="220">
+                    <img class="rounded mx-auto d-block" th:src="@{/logos/{img} (img = ${vacant.image})}" alt="Generic placeholder image" width="220" height="220">
                 </div>
                 <div class="col-md-9">
                     <h2><span th:text="${vacant.name}"></span></h2>
-                    <h6 class="card-title"><strong>Categoría: </strong> <span></span></h6>
+                    <h6 class="card-title"><strong>Categoría: </strong> <span th:text="${vacant.category.name}"></span></h6>
                     <h6 class="card-title"><strong>Publicado: </strong> <span th:text="${vacant.dateRelease}"></span></h6>
-                    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+                    <p th:text="${vacant.description}"></p>
                     <p><a class="btn btn-secondary" th:href="@{/vacants/view/{id} (id = ${vacant.id})}" role="button">Detalles &raquo;</a></p>
                 </div>
             </div>

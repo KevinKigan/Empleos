@@ -52,4 +52,15 @@ public class VacantsService implements VacantsServiceInterface {
     public void save(Vacant vacant) {
         vacantsRepo.save(vacant);
     }
+
+    /**
+     * Metodo para buscar las vacantes destacadas
+     *
+     * @return Lista de vacantes destacadas
+     */
+
+    @Override
+    public List<Vacant> findOutstanding() {
+        return vacantsRepo.findByStatusAndOutstandingOrderByIdDesc("Aprobada", true);
+    }
 }
