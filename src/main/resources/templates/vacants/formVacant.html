@@ -43,6 +43,8 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="name">Nombre</label>
+                                <input type="hidden" th:field="*{id}">
+                                <input type="hidden" th:field="*{image}">
                                 <input type="text" class="form-control" th:field="*{name}" id="name" name="name"
                                        placeholder="Titulo de la oferta de trabajo" required="required">
                             </div>
@@ -79,7 +81,7 @@
                             <div class="form-group">
                                 <label for="dateRelease">Fecha de Publicación</label>
                                 <!--th:field="*{dateRelease}" -->
-                                <input type="text" class="form-control"  data-date-format="dd/mm/yyyy" name="dateRelease" id="dateRelease" placeholder="Fecha de publicacion" required="required">
+                                <input type="text" class="form-control" th:field="*{dateRelease}"  data-date-format="dd/mm/yyyy" name="dateRelease" id="dateRelease" placeholder="Fecha de publicacion" required="required">
 <!--                                <input type="text" class="form-control" name="dateRelease" id="dateRelease"-->
 <!--                                       placeholder="Fecha de publicacion" required="required">-->
                             </div>
@@ -122,7 +124,7 @@
                         </div>
                         <div class="col-md-3">
                             <label for="image">Imagen/Logo</label>
-                            <img class="rounded mx-auto d-block" src=""
+                            <img class="rounded mx-auto d-block" th:src="@{/logos/{img} (img = ${vacant.image})}"
                                  alt="Generic placeholder image" width="200" height="200">
                         </div>
                     </div>

@@ -1,7 +1,6 @@
 package com.example.empleos.service;
 
 import com.example.empleos.model.Category;
-import com.example.empleos.model.Vacant;
 
 import java.util.List;
 
@@ -9,5 +8,7 @@ import java.util.List;
 public interface CategoriesServiceInterface {
     void save(Category category);
     List<Category> findAll();
-    Category findById(int id);
+    void delete(int idCategory);
+    Category findById(Integer id);
+
 }

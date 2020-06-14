@@ -63,4 +63,14 @@ public class VacantsService implements VacantsServiceInterface {
     public List<Vacant> findOutstanding() {
         return vacantsRepo.findByStatusAndOutstandingOrderByIdDesc("Aprobada", true);
     }
+
+    /**
+     * Metodo para borrar una Vacante
+     *
+     * @param idVacant Id de la Vacante a eliminar
+     */
+    @Override
+    public void delete(int idVacant) {
+        vacantsRepo.deleteById(idVacant);
+    }
 }

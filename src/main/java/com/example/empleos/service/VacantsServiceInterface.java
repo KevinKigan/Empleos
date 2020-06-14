@@ -9,4 +9,5 @@ public interface VacantsServiceInterface {
     Vacant findById(Integer id);
     void save(Vacant vacant);
     List<Vacant> findOutstanding();
+    void delete(int idVacant);
 }

@@ -7,8 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,8 +24,6 @@ public class HomeController {
      */
     @GetMapping("/home")
     public String showHome(Model model) {
-//        List<Vacant> list = vacantsService.findOutstanding();
-//        model.addAttribute("vacants", list);
         return "home";
     }
 
