@@ -3,3 +3,11 @@
     background-color: aliceblue;
 }
 
+.hiddenEAPP{
+    visibility: hidden;
+}
+
+.visibleEAPP{
+    visibility: visible;
+}
+

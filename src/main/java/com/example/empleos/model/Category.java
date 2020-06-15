@@ -1,7 +1,15 @@
 package com.example.empleos.model;
 
+
+import javax.persistence.*;
+
+@Entity
+@Table(name="Categories")
 public class Category {
 
+    @Id
+    // Id autoincrementable
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
     private String description;

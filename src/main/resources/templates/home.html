@@ -10,11 +10,14 @@
     <title>EmpleosApp | Aplicación para publicar Ofertas de Trabajo.</title>
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" th:src="@{/css/sweetalert.css}"/>
     <!-- Custom styles for this template -->
     <link th:href="@{/bootstrap/css/jumbotron.css}" rel="stylesheet">
     <link th:href="@{/bootstrap/css/sticky-footer-navbar.css}" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/sweetalert.min.js}"></script>
+    <script th:src="@{/js/scriptsEmpleosApp.js}"></script>
 </head>
 <body>
 
@@ -27,16 +30,13 @@
         <div class="container">
             <h3>Encuentra el trabajo que andas buscando.</h3>
             Puedes buscar por descripción y categoría.
-            <form class="form-inline">
-                <input type="text" class="form-control mb-3" id="exampleFormControlInput1"
+            <form th:action="@{/search}" method="get" class="form-inline" th:object="${search}">
+                <input type="text" class="form-control mb-3" th:field="*{description}"
                        placeholder="Escriba una búsqueda">&nbsp;
-                <select class="custom-select custom-select mb-3">
-                    <option selected>Seleccione una categoría</option>
-                    <option value="1">Ventas</option>
-                    <option value="2">Contabilidad</option>
-                    <option value="3">Transporte</option>
-                    <option value="4">Informática</option>
-                    <option value="5">Construcción</option>
+                <select class="custom-select custom-select mb-3" th:field="*{category.id}">
+                    <option th:value="${null}" selected>Seleccione una categoría</option>
+                    <option th:each="category : ${categories}" th:value="${category.id}"
+                            th:text="${category.name}"></option>
                 </select>&nbsp;
                 <button type="submit" class="btn btn-primary mb-3">Buscar</button>
             </form>
@@ -44,23 +44,58 @@
     </div>
     <hr>
 
-        <div class="container">
-            <h2 class="font-weight-bold text-center text-capitalize">DESTACADOS</h2>
+    <div class="container">
+        <div th:if="${vacantsOutstanding.size()>0}">
+            <h2 class="font-weight-bold text-center text-capitalize p-3 mb-2 bg-secondary text-white">DESTACADOS</h2>
+
             <hr>
-            <div class="row" th:each="vacant:${vacants}">
+            <div class="row" th:each="vacantOutstanding:${vacantsOutstanding}">
                 <div class="col-md-3">
-                    <img class="rounded mx-auto d-block" th:src="@{/images/{img} (img = ${vacant.image})}" alt="Generic placeholder image" width="220" height="220">
+                    <img class="rounded mx-auto d-block" th:src="@{/logos/{img} (img = ${vacantOutstanding.image})}"
+                         alt="Generic placeholder image" width="220" height="220">
                 </div>
                 <div class="col-md-9">
-                    <h2><span th:text="${vacant.name}"></span></h2>
-                    <h6 class="card-title"><strong>Categoría: </strong> <span></span></h6>
-                    <h6 class="card-title"><strong>Publicado: </strong> <span th:text="${vacant.dateRelease}"></span></h6>
-                    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-                    <p><a class="btn btn-secondary" th:href="@{/vacants/view/{id} (id = ${vacant.id})}" role="button">Detalles &raquo;</a></p>
+                    <h2><span th:text="${vacantOutstanding.name}"></span></h2>
+                    <h6 class="card-title"><strong>Categoría: </strong> <span
+                            th:text="${vacantOutstanding.category.name}"></span></h6>
+                    <h6 class="card-title"><strong>Publicado: </strong> <span
+                            th:text="${#dates.format(vacantOutstanding.dateRelease, 'dd/MM/yyyy')}"></span></h6>
+                    <p th:text="${vacantOutstanding.description}"></p>
+                    <p><a class="btn btn-secondary" th:href="@{/vacants/view/{id} (id = ${vacantOutstanding.id})}"
+                          role="button">Detalles &raquo;</a>
+                        <img th:src="@{/images/outstanding.png}" style="width:3%;height:3%">
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+
+    <div class="container">
+
+        <div th:if="${vacantsNotOutstanding.size()>0}">
+            <hr>
+            <h2 class="font-weight-bold text-center text-capitalize p-3 mb-2 bg-secondary text-white">NO DESTACADOS</h2>
+            <hr>
+            <div class="row" th:each="vacantNotOutstanding:${vacantsNotOutstanding}">
+                <div class="col-md-3">
+                    <img class="rounded mx-auto d-block" th:src="@{/logos/{img} (img = ${vacantNotOutstanding.image})}"
+                         alt="Generic placeholder image" width="220" height="220">
+                </div>
+                <div class="col-md-9">
+                    <h2><span th:text="${vacantNotOutstanding.name}"></span></h2>
+                    <h6 class="card-title"><strong>Categoría: </strong> <span
+                            th:text="${vacantNotOutstanding.category.name}"></span></h6>
+                    <h6 class="card-title"><strong>Publicado: </strong> <span
+                            th:text="${#dates.format(vacantNotOutstanding.dateRelease, 'dd/MM/yyyy')}"></span></h6>
+                    <p th:text="${vacantNotOutstanding.description}"></p>
+                    <p><a class="btn btn-secondary" th:href="@{/vacants/view/{id} (id = ${vacantNotOutstanding.id})}"
+                          role="button">Detalles &raquo;</a></p>
                 </div>
             </div>
             <hr>
-        </div> <!-- /container -->
+        </div>
+    </div><!-- /container -->
 
 
     </div> <!-- /container -->

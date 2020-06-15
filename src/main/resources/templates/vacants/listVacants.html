@@ -15,8 +15,10 @@
     <link th:href="@{/bootstrap/css/jumbotron.css}" rel="stylesheet">
     <link th:href="@{/bootstrap/css/sticky-footer-navbar.css}" rel="stylesheet">
     <link href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" th:src="@{/css/sweetalert.css}"/>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
+    <script th:src="@{/js/sweetalert.min.js}"></script>
 </head>
 
 <body>
@@ -46,18 +48,24 @@
                     </thead>
                     <tbody>
                     <tr th:each="vacant: ${vacants}">
-                        <td></td>
+                        <td th:text="${vacant.category.name}"></td>
                         <td th:text="${vacant.name}"></td>
                         <td th:text="${vacant.dateRelease}"></td>
                         <td th:text="${vacant.status}"></td>
                         <td th:text="${vacant.outstanding==true ? 'SI' : 'NO' }"></td>
                         <td>
-                            <a href="#" class="btn btn-success btn-sm" role="button" title="Editar el registro."><i class="fas fa-pencil-alt" aria-hidden="true"></i></a>
-                            <a href="#" onclick="return confirm('¿Seguro que quieres eliminar?')" class="btn btn-success btn-sm" role="button" title="Eliminar el registro."><i class="fas fa-trash" aria-hidden="true"></i></a>
+                            <a th:href="@{/vacants/edit/{id}  (id=${vacant.id})}" class="btn btn-success btn-sm" role="button" title="Editar el registro."><i class="fas fa-pencil-alt" aria-hidden="true"></i></a>
+<!--                            <a href="#" onclick="swal()" class="btn btn-success btn-sm" role="button" title="Eliminar el registro."><i class="fas fa-trash" aria-hidden="true"></i></a>-->
+                            <a th:href="@{/vacants/delete/{id} (id=${vacant.id})}" onclick="return confirm('¿Seguro que quieres eliminar?')" class="btn btn-success btn-sm" role="button" title="Eliminar el registro."><i class="fas fa-trash" aria-hidden="true"></i></a>
                         </td>
                     </tbody>
                 </table>
-
+                <nav th:if="${vacants.totalPages > 0}" aria-label="Page navigation example" >
+                    <ul class="pagination">
+                        <li th:if="${!first}" class="page-item"><a th:href="@{/vacants/indexPaginate(page=${vacants.number -1})}" class="page-link">Anterior</a></li>
+                        <li th:if="${!last}" class="page-item"><a th:href="@{/vacants/indexPaginate(page=${vacants.number + 1})}" class="page-link">Siguiente</a></li>
+                    </ul>
+                </nav>
             </div>
         </div>
     </div> <!-- /container -->
