@@ -20,13 +20,13 @@
 
   <header th:insert="fragments/header :: main-menu"></header>
 
-    <main role="main">     
+    <main role="main">
       <hr>
-      <div class="container"> 
+      <div class="container">
 
         <div class="card">
-          <h4 class="card-header"><strong>Listado de Usuarios</strong></h4>              
-          <div class="card-body">            
+          <h4 class="card-header"><strong>Listado de Usuarios</strong></h4>
+          <div class="card-body">
             <hr>
             <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
             <table class="table table-hover">
@@ -45,17 +45,22 @@
                   <td th:text="${user.username}"></td>
                   <td th:text="${user.email}"></td>
                   <td th:text="${user.status == 1 ? 'Activo' : 'Bloqueado' }">Activo</td>
-                  
+
                   <td>
                     <a th:href="@{/users/delete/{id} (id=${user.id}) }" onclick="return confirm('¿Estas seguro?')" class="btn btn-success btn-sm" role="button" title="Eliminar"><i class="fas fa-trash" aria-hidden="true"></i></a>
                     <a th:href="@{/users/blockUnblock/{id} (id=${user.id}) }" onclick="return confirm('¿Quiere bloquear el acceso al usuario?')" class="btn btn-success btn-sm" role="button" title="Bloquear el acceso al sistema para este usuario."><i class="fas fa-lock" aria-hidden="true"></i></a>
                     <a th:href="@{/users/edit/{id}  (id=${user.id})}" class="btn btn-success btn-sm" role="button" title="Editar el registro."><i class="fas fa-pencil-alt" aria-hidden="true"></i></a>
                   </td>
-                </tr>                
-                               
+                </tr>
+
               </tbody>
             </table>
-            
+            <nav th:if="${users.totalPages > 0}" aria-label="Page navigation example" >
+              <ul class="pagination">
+                <li th:if="${!first}" class="page-item"><a th:href="@{/users/indexPaginate(page=${users.number -1})}" class="page-link">Anterior</a></li>
+                <li th:if="${!last}" class="page-item"><a th:href="@{/users/indexPaginate(page=${users.number + 1})}" class="page-link">Siguiente</a></li>
+              </ul>
+            </nav>
           </div>
         </div>
       </div> <!-- /container -->
@@ -68,6 +73,6 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>     
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
   </body>
 </html>

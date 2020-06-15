@@ -149,6 +149,8 @@ public class VancantsController {
      */
     @GetMapping("/indexPaginate")
     public String showIndexPaginate(Model model, Pageable page){
+        model.addAttribute("first",vacantsService.findAll(page).isFirst());
+        model.addAttribute("last",vacantsService.findAll(page).isLast());
         model.addAttribute("vacants", vacantsService.findAll(page));
         return "vacants/listVacants";
     }

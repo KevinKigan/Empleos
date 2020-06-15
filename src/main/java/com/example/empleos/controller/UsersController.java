@@ -10,6 +10,7 @@ import com.example.empleos.model.Vacant;
 import com.example.empleos.service.UsersServiceInterface;
 import com.example.empleos.util.UploadFiles;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,9 +34,24 @@ public class UsersController {
 		return "users/listUsers";
 	}
 
+	/**
+	 * Metodo para mostrar todas los usuarios por paginas
+	 *
+	 * @param model
+	 * @param page
+	 * @return
+	 */
+	@GetMapping("/indexPaginate")
+	public String showIndexPaginate(Model model, Pageable page){
+		model.addAttribute("first",userService.findAll(page).isFirst());
+		model.addAttribute("last",userService.findAll(page).isLast());
+		model.addAttribute("users", userService.findAll(page));
+		return "users/listUsers";
+	}
 
 
-    @GetMapping("/delete/{id}")
+
+	@GetMapping("/delete/{id}")
 	public String delete(@PathVariable("id") int idUser, RedirectAttributes attributes) {
 		User tempUser = userService.findById(idUser);
 		LOGGER.info("Borrando vacante: ID -> "+ tempUser.getId()+" | "+ "Nombre -> " +tempUser.getName());

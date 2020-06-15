@@ -48,6 +48,8 @@ public class CategoriesController {
      */
     @GetMapping("/indexPaginate")
     public String showIndexPaginate(Model model, Pageable page){
+        model.addAttribute("first",categoriesService.findAll(page).isFirst());
+        model.addAttribute("last",categoriesService.findAll(page).isLast());
         model.addAttribute("categories", categoriesService.findAll(page));
         return "categories/listCategories";
     }
