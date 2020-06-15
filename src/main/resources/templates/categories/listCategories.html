@@ -31,7 +31,8 @@
             <div class="card-body">
                 <a class="btn btn-primary" th:href="@{/categories/create}" title="Crear nueva Categoria" role="button"><i class="fas fa-file" aria-hidden="true"></i> Nueva</a>
                 <br><br>
-                <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
+                <div th:if="${msgMain == true }" class='alert alert-success' th:text="${msgValue}" role='alert'></div>
+                <div th:if="${msgMain == false}" class='alert alert-warning' th:text="${msgValue}" role='alert'></div>
                 <hr>
                 <table class="table table-hover">
                     <thead class="thead-light">
@@ -49,12 +50,17 @@
                         <td th:text="${category.name}"></td>
                         <td th:text="${category.description}"></td>
                         <td>
-                            <a href="#" class="btn btn-success btn-sm" role="button" title="Editar el registro."><i class="fas fa-pencil-alt" aria-hidden="true"></i></a>
-                            <a href="#" onclick="return confirm('¿Seguro que quieres eliminar?')" class="btn btn-success btn-sm" role="button" title="Eliminar el registro."><i class="fas fa-trash" aria-hidden="true"></i></a>
+                            <a th:href="@{/categories/edit/{id} (id=${category.id})}" class="btn btn-success btn-sm" role="button" title="Editar el registro."><i class="fas fa-pencil-alt" aria-hidden="true"></i></a>
+                            <a th:href="@{/categories/delete/{id} (id=${category.id})}" onclick="return confirm('¿Seguro que quieres eliminar?')" class="btn btn-success btn-sm" role="button" title="Eliminar el registro."><i class="fas fa-trash" aria-hidden="true"></i></a>
                         </td>
                     </tbody>
                 </table>
-
+                <nav th:if="${categories.totalPages > 0}" aria-label="Page navigation example" >
+                    <ul class="pagination">
+                        <li th:if="${!first}" class="page-item"><a th:href="@{/categories/indexPaginate(page=${categories.number -1})}" class="page-link">Anterior</a></li>
+                        <li th:if="${!last}" class="page-item"><a th:href="@{/categories/indexPaginate(page=${categories.number + 1})}" class="page-link">Siguiente</a></li>
+                    </ul>
+                </nav>
             </div>
         </div>
     </div> <!-- /container -->

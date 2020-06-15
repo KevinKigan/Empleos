@@ -1,0 +1,76 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>EmpleosApp | Formulario de registro</title>
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link th:href="@{/bootstrap/css/jumbotron.css}" rel="stylesheet">
+    <link th:href="@{/bootstrap/css/sticky-footer-navbar.css}" rel="stylesheet">
+</head>
+
+<body>
+
+<header th:insert="fragments/header :: main-menu"></header>
+
+<main role="main">
+    <hr>
+    <div class="container">
+
+        <div class="card">
+            <h4 class="card-header"><strong>Formulario de registro</strong></h4>
+            <div class="card-body">
+                <div th:if="${msg!=null}" class='alert alert-danger' th:text="${msg}" role='alert'></div>
+                <form th:action="@{/users/save}" th:object="${user}" method="post">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input type="hidden" th:field="*{id}">
+                                <label for="name">Nombre</label>
+                                <input type="text" th:field="*{name}" class="form-control" id="name" name="name" placeholder="Escriba el nombre de la categoria" required="required">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="email">Correo electrónico</label>
+                                <input type="email" class="form-control" th:field="*{email}" id="email" name="email" placeholder="Correo electrónico" required="required">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input type="text" class="form-control" th:field="*{username}" id="username" name="username" placeholder="Nombre de usuario" required="required">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" th:field="*{password}" id="password" name="password" placeholder="Password" required="required">
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <button th:if="${edit}" type="submit" title="Quiero registrarme." class="btn btn-primary">Actualizar</button>
+                    <button th:unless="${edit}" type="submit" title="Quiero registrarme." class="btn btn-primary">Registrarse</button>
+                </form>
+            </div>
+        </div>
+    </div> <!-- /container -->
+
+</main>
+
+<footer class="footer"  th:insert="fragments/footer :: footer"></footer>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+</body>
+</html>
