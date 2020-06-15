@@ -1,5 +1,6 @@
 package com.example.empleos.controller;
 
+import com.example.empleos.model.User;
 import com.example.empleos.model.Vacant;
 import com.example.empleos.service.CategoriesServiceInterface;
 import com.example.empleos.service.VacantsServiceInterface;
@@ -7,6 +8,7 @@ import com.example.empleos.util.UploadFiles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -89,7 +91,8 @@ public class VancantsController {
      * @return
      */
     @GetMapping("/create")
-    public String create(Vacant vacant, Model model){
+    public String create(Model model){
+        model.addAttribute("vacant", new Vacant());
         return "vacants/formVacant";
 
     }
@@ -134,6 +137,19 @@ public class VancantsController {
     @GetMapping("/index")
     public String showIndex(Model model){
         model.addAttribute("vacants", vacantsService.findAll());
+        return "vacants/listVacants";
+    }
+
+    /**
+     * Metodo para mostrar todas las vacantes por paginas
+     *
+     * @param model
+     * @param page
+     * @return
+     */
+    @GetMapping("/indexPaginate")
+    public String showIndexPaginate(Model model, Pageable page){
+        model.addAttribute("vacants", vacantsService.findAll(page));
         return "vacants/listVacants";
     }
 

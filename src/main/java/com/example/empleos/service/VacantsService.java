@@ -3,6 +3,9 @@ package com.example.empleos.service;
 import com.example.empleos.model.Vacant;
 import com.example.empleos.repository.VacantsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +28,11 @@ public class VacantsService implements VacantsServiceInterface {
     @Override
     public List<Vacant> findAll() {
         return vacantsRepo.findAll();
+    }
+
+    @Override
+    public Page<Vacant> findAll(Pageable pageable) {
+        return vacantsRepo.findAll(pageable);
     }
 
     /**
@@ -60,8 +68,8 @@ public class VacantsService implements VacantsServiceInterface {
      */
 
     @Override
-    public List<Vacant> findOutstanding() {
-        return vacantsRepo.findByStatusAndOutstandingOrderByIdDesc("Aprobada", true);
+    public List<Vacant> findOutstanding(boolean outstanding) {
+        return vacantsRepo.findByStatusAndOutstanding("Aprobada", outstanding);
     }
 
     /**
@@ -73,4 +81,17 @@ public class VacantsService implements VacantsServiceInterface {
     public void delete(int idVacant) {
         vacantsRepo.deleteById(idVacant);
     }
+
+    /**
+     * Metodo para buscar vacantes segun un ejemplo dado
+     *
+     * @param example
+     * @return
+     */
+    @Override
+    public List<Vacant> findByExample(Example<Vacant> example) {
+        return vacantsRepo.findAll(example);
+    }
+
+
 }

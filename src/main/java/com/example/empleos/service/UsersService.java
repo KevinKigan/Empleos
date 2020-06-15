@@ -58,4 +58,24 @@ public class UsersService implements UsersServiceInterface {
 		}
 		return null;
 	}
+
+	/**
+	 * Metodo para bloquear o desbloquear un usuario
+	 *
+	 * @param id ID del usuario a bloquear o desbloquear
+	 */
+
+	@Override
+	public void blockUnblock(Integer id) {
+		Optional<User> userTemp = usersRepo.findById(id);
+		if(userTemp.get().getStatus()==1){
+			userTemp.get().setStatus(0);
+			usersRepo.save(userTemp.get());
+			// Se hace de esta manera por si se añaden nuevos estados
+		}else if(userTemp.get().getStatus()==0){
+			userTemp.get().setStatus(1);
+			usersRepo.save(userTemp.get());
+		}
+
+	}
 }

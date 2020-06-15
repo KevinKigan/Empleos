@@ -1,9 +1,11 @@
 package com.example.empleos.controller;
 
 import com.example.empleos.model.Category;
+import com.example.empleos.model.User;
 import com.example.empleos.model.Vacant;
 import com.example.empleos.service.CategoriesServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,13 +40,27 @@ public class CategoriesController {
     }
 
     /**
+     * Metodo para mostrar todas las categorias por paginas
+     *
+     * @param model
+     * @param page
+     * @return
+     */
+    @GetMapping("/indexPaginate")
+    public String showIndexPaginate(Model model, Pageable page){
+        model.addAttribute("categories", categoriesService.findAll(page));
+        return "categories/listCategories";
+    }
+
+    /**
      * Metodo para crear una categoria
      *
      * @return
      */
     //@GetMapping("/create")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String create(){
+    public String create(Model model){
+        model.addAttribute("category", new Category());
         return "categories/formCategory";
     }
 

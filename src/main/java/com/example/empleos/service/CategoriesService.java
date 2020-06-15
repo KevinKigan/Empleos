@@ -1,11 +1,11 @@
 package com.example.empleos.service;
 
 import com.example.empleos.model.Category;
-import com.example.empleos.model.Vacant;
 import com.example.empleos.repository.CategoriesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +35,11 @@ public class CategoriesService implements CategoriesServiceInterface {
     @Override
     public List<Category> findAll() {
         return categoriesRepo.findAll();
+    }
+
+    @Override
+    public Page<Category> findAll(Pageable page) {
+        return categoriesRepo.findAll(page);
     }
 
     /**

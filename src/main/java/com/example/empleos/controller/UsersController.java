@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.example.empleos.model.Profile;
 import com.example.empleos.model.User;
 import com.example.empleos.model.Vacant;
 import com.example.empleos.service.UsersServiceInterface;
@@ -31,7 +32,9 @@ public class UsersController {
     	model.addAttribute("users", list);
 		return "users/listUsers";
 	}
-    
+
+
+
     @GetMapping("/delete/{id}")
 	public String delete(@PathVariable("id") int idUser, RedirectAttributes attributes) {
 		User tempUser = userService.findById(idUser);
@@ -61,7 +64,7 @@ public class UsersController {
 	 * @return
 	 */
 	@PostMapping("/save")
-	public String save(User user, BindingResult bindingResult, RedirectAttributes attributes) {
+	public String save(User user, BindingResult bindingResult, RedirectAttributes attributes, Model model) {
 		if (bindingResult.hasErrors()) {
 			for (ObjectError error : bindingResult.getAllErrors()) {
 				LOGGER.severe("Error: " + error.getDefaultMessage());
@@ -70,17 +73,29 @@ public class UsersController {
 		}
 		user.setStatus(1);
 		user.setRegistrationDate(new Date());
-		userService.save(user);
-		attributes.addFlashAttribute("msg", "El usuario " + user.getName() + " fue creado");
-		LOGGER.info(user.toString());
-		return "redirect:/home";
+		Profile profile = new Profile();
+		profile.setId(3); // Perfil USUARIO
+		user.addProfile(profile);
+
+		try {
+			userService.save(user);
+			attributes.addFlashAttribute("msg", "El usuario " + user.getName() + " fue guardado correctamente");
+			LOGGER.info(user.toString());
+		}catch(Exception e){
+			model.addAttribute("msg", "No se ha podido guardar al usuario "+user.getName());
+			LOGGER.severe("No se ha podido guardar al usuario "+user.getName());
+			return "users/formSign";
+		}
+
+
+		return "redirect:/users/index";
 	}
 
 	/**
 	 * Metodo para editar un usuario
 	 *
 	 * @param idUser ID del usuario a editar
-	 * @param model
+	 * @param
 	 * @return
 	 */
 
@@ -88,6 +103,23 @@ public class UsersController {
 	public String edit(@PathVariable("id") int idUser, Model model){
 		User tempUser = userService.findById(idUser);
 		model.addAttribute("user", tempUser);
+		model.addAttribute("edit", true);
 		return "users/formSign";
 	}
+
+	/**
+	 * Metodo para bloquear o desbloquear un usuario
+	 *
+	 * @param idUser ID del usuario a bloquear o desbloquear
+	 * @param
+	 * @return
+	 */
+
+	@GetMapping("/blockUnblock/{id}")
+	public String blockUnblock(@PathVariable("id") int idUser, Model model){
+		userService.blockUnblock(idUser);
+		return "redirect:/users/index";
+	}
+
+
 }

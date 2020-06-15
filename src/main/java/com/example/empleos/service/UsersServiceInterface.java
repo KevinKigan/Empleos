@@ -9,5 +9,6 @@ public interface UsersServiceInterface {
     void delete(int idUser);
     List<User> findAll();
     User findById(Integer id);
+    void blockUnblock(Integer id);
 
 }

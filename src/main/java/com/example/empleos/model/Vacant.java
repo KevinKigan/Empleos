@@ -31,7 +31,6 @@ public class Vacant {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             setDateRelease(sdf.parse(sdf.format(new Date())));
             setImage("no-image.png");
-            setOutstanding(false);
         } catch (ParseException e) {
             System.out.println(e.getMessage());
         }
@@ -121,6 +120,12 @@ public class Vacant {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public void reset(){
+        this.image = null;
+        this.dateRelease = null;
+        this.outstanding = true;
     }
 
     @Override

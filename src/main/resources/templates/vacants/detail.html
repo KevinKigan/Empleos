@@ -32,7 +32,7 @@
                     <h4 class="card-header">Aplicar para <strong th:text="${vacant.name}"></strong></h4>
                     <div class="card-body">
                         <h5 class="card-title"><strong>Categoría: </strong> <span th:text="${vacant.category.name}"></span></h5>
-                        <h6 class="card-title"><strong>Publicado: </strong> <span th:text="${vacant.dateRelease}"></span></h6>
+                        <h6 class="card-title"><strong>Publicado: </strong> <span th:text="${#dates.format(vacant.dateRelease, 'dd/MM/yyyy')}"></span></h6>
                         <h6 class="card-title"><strong>Salario Ofrecido: </strong><span th:text="${vacant.salary}"></span></h6>
                         <p class="card-text" th:text="${vacant.description}"></p>
 
