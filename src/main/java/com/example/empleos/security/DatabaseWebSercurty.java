@@ -33,15 +33,21 @@ public class DatabaseWebSercurty extends WebSecurityConfigurerAdapter {
                     "/bootstrap/**",
                     "/images/**",
                     "/tinymce/**").permitAll()
-            // Las vistas públicas no requieren autenticación
+            // Asignar permisos a URLs por ROLES
+            .antMatchers("/vacants/**").hasAnyAuthority("SUPERVISOR","ADMIN")
+            .antMatchers("/categories/**").hasAnyAuthority("SUPERVISOR","ADMIN")
+            .antMatchers("/users/**").hasAnyAuthority("ADMIN")
+                // Las vistas públicas no requieren autenticación
             .antMatchers("/home",
-                    "/users/create",
+                    "/signup",
                     "/search",
                     "/vacants/view/**").permitAll()
             // Todas las demás URLs de la Aplicación requieren autenticación
             .anyRequest().authenticated()
+
             // El formulario de Login no requiere autenticacion
             .and().formLogin().permitAll();
+
     }
 
 }

@@ -87,4 +87,9 @@ public class UsersService implements UsersServiceInterface {
         return usersRepo.findAll(pageable);
 
     }
+
+    @Override
+    public User findByUsername(String username) {
+        return usersRepo.findByUsername(username);
+    }
 }

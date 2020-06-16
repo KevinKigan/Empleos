@@ -60,16 +60,7 @@ public class UsersController {
 		return "redirect:/users/index";
 	}
 
-	/**
-	 * Metodo para crear una categoria
-	 *
-	 * @return
-	 */
-	@GetMapping("/create")
-	public String create(Model model){
-		model.addAttribute("user", new User());
-		return "users/formSign";
-	}
+
 
 	/**
 	 * Metodo para crear un usuario
@@ -135,6 +126,16 @@ public class UsersController {
 	public String blockUnblock(@PathVariable("id") int idUser, Model model){
 		userService.blockUnblock(idUser);
 		return "redirect:/users/index";
+	}
+
+	@ModelAttribute // Model Attribute añade al modelo atributos que pueden ser utilizados por el controlador
+	public void setGenerics(Model model){
+		User user = new User();
+		model.addAttribute("user", user);
+	}
+	@GetMapping("/")
+	public String error(Model model) {
+		return "redirect:/home";
 	}
 
 
