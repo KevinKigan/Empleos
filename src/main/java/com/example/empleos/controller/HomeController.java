@@ -96,6 +96,11 @@ public class HomeController {
         return "tableDetailsVacants";
     }
 
+    @GetMapping("/")
+    public String error(Model model) {
+        return "redirect:/home";
+    }
+
     /**
      * Metodo para buscar vacantes
      *
