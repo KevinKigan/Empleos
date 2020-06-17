@@ -1,8 +1,6 @@
 package com.example.empleos.controller;
 
 import com.example.empleos.model.Category;
-import com.example.empleos.model.User;
-import com.example.empleos.model.Vacant;
 import com.example.empleos.service.CategoriesServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -88,6 +86,10 @@ public class CategoriesController {
         categoriesService.save(category);
         LOGGER.info("Guardada categoria: ID -> " + category.getId() + " | " + "Nombre -> " + category.getName());
         return "redirect:/categories/index";
+    }
+    @GetMapping("/")
+    public String error(Model model) {
+        return "redirect:/home";
     }
 
     /**
