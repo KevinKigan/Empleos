@@ -6,19 +6,24 @@ import java.util.logging.Logger;
 
 import com.example.empleos.model.Category;
 import com.example.empleos.model.Request;
+import com.example.empleos.model.User;
 import com.example.empleos.model.Vacant;
 import com.example.empleos.service.RequestService;
 import com.example.empleos.service.RequestServiceInterface;
+import com.example.empleos.service.UsersServiceInterface;
 import com.example.empleos.service.VacantsServiceInterface;
+import com.example.empleos.util.UploadFiles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -28,7 +33,11 @@ public class RequestController {
 	@Autowired
 	private RequestServiceInterface requestService;
 	@Autowired
+	private UsersServiceInterface userService;
+	@Autowired
 	private VacantsServiceInterface vacantsService;
+	@Value("${empleos.pathCV}")
+	private String path;
 	private static Logger LOGGER = Logger.getLogger(RequestController.class.getName());
 	/**
 	 * EJERCICIO: Declarar esta propiedad en el archivo application.properties. El valor sera el directorio
@@ -81,16 +90,29 @@ public class RequestController {
 	 * @return
 	 */
 	@PostMapping("/save")
-	public String save(Request request, BindingResult bindingResult, RedirectAttributes attributes){
+	public String save(Request request, BindingResult bindingResult, RedirectAttributes attributes, @RequestParam("fileCV") MultipartFile multiPart, Authentication auth){
+		String username = auth.getName();
 		if(bindingResult.hasErrors()){
 			for (ObjectError error: bindingResult.getAllErrors()){
 				LOGGER.severe("Error: "+error.getDefaultMessage());
 			}
 			return "requests/formRequest";
 		}
-		//addAtributesMsg(true, "La categoria "+category.getName()+" fue guardada", attributes);
+
+		if (!multiPart.isEmpty()) {
+			String fileName = UploadFiles.saveFile(multiPart, path);
+			if (fileName!=null){
+				request.setFile(fileName);
+			}
+		}
+		// Buscamos el objeto Usuario en BD
+		User user = userService.findByUsername(username);
+
+		request.setUser(user);
+		request.setDate(new Date());
 		requestService.save(request);
-		//LOGGER.info("Guardada categoria: ID -> " + category.getId() + " | " + "Nombre -> " + category.getName());
+		attributes.addFlashAttribute("msg", "Gracias por enviar tu CV!");
+		requestService.save(request);
 		return "redirect:/home";
 	}
 

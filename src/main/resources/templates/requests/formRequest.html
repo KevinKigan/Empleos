@@ -35,19 +35,20 @@
                 <h6 class="card-title"><strong>Salario Ofrecido: </strong><span th:text="${vacant.salary}"></span></h6>
                 <p class="card-text" th:text="${vacant.description}"></p>
                 <hr>
-                <form th:action="@{/solicitudes/save}" th:object="${request}" method="post" enctype="multipart/form-data">
+                <form th:action="@{/requests/save}" th:object="${request}" method="post" enctype="multipart/form-data">
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
                         <input type="hidden" th:name="vacant.id" th:value="${vacant.id}">
                         <label for="comentarios">Comentarios</label>
-                        <textarea class="form-control" name="commnets" th:field="*{comments}" id="comentarios" rows="2"></textarea>
+                        <textarea class="form-control" name="commnets" th:field="*{comments}" id="comentarios" rows="2" placeholder="Puedes dejar un comentario">&nbsp;></textarea>
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="fileCV">Curriculm Vitae</label>
-                        <input type="file" class="form-control-file" name="fileCV" id="fileCV" required="true">
+                        <input type="file" class="form-control-file text-primary" name="fileCV" id="fileCV" required="true">
+                        <br>
                         <p class="help-block">Solo se permiten archivos [ pdf,doc,docx ]</p>
                       </div>
                     </div>

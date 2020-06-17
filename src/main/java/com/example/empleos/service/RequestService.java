@@ -18,26 +18,26 @@ public class RequestService implements RequestServiceInterface {
 
 	@Override
 	public void save(Request request) {
-
+		requestsRepo.save(request);
 	}
 
 	@Override
-	public void eliminar(Integer idRequest) {
-
+	public void delete(Integer idRequest) {
+		requestsRepo.delete(requestsRepo.findById(idRequest).get());
 	}
 
 	@Override
 	public List<Request> findAll() {
-		return null;
+		return requestsRepo.findAll();
 	}
 
 	@Override
 	public Request findById(Integer idRequest) {
-		return null;
+		return requestsRepo.findById(idRequest).get();
 	}
 
 	@Override
 	public Page<Request> findAll(Pageable page) {
-		return null;
+		return requestsRepo.findAll(page);
 	}
 }
