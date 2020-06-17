@@ -87,6 +87,10 @@ public class CategoriesController {
         LOGGER.info("Guardada categoria: ID -> " + category.getId() + " | " + "Nombre -> " + category.getName());
         return "redirect:/categories/index";
     }
+    @GetMapping("/")
+    public String error(Model model) {
+        return "redirect:/home";
+    }
 
     /**
      * Metodo para eliminar una categoria

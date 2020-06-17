@@ -14,5 +14,6 @@ public interface UsersServiceInterface {
     User findById(Integer id);
     void blockUnblock(Integer id);
     Page<User> findAll(Pageable pageable);
+    User findByUsername(String username);
 
 }

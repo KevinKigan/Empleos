@@ -154,6 +154,10 @@ public class VancantsController {
         model.addAttribute("vacants", vacantsService.findAll(page));
         return "vacants/listVacants";
     }
+    @GetMapping("/")
+    public String error(Model model) {
+        return "redirect:/home";
+    }
 
     /**
      * Metodo para añadir al modelo la lista de categorias
