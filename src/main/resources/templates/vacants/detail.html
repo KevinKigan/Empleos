@@ -43,7 +43,13 @@
                                 <p class="card-text" th:utext="${vacant.details}"></p>
                             </div>
                         </div>
-                        <a class="btn btn-primary" href="#" role="button" title="Quiero aplicar para esta oferta de trabajo."><i class="fas fa-file" aria-hidden="true"></i> Aplicar</a>
+                        <div sec:authorize="isAnonymous()">
+                            <a class="btn btn-info" href="#" role="button" th:href="@{/index}">Para solicitar la vacante se necesita estar registrado</a>&nbsp;
+                        </div>
+                        <div sec:authorize="isAuthenticated()">
+                            <a th:if="${rol == 'USUARIO' }" class="btn btn-primary" th:href="@{/requests/create/{idVacant} (idVacant = ${vacant.id})}" role="button" title="Quiero solicitar esta oferta de trabajo."><i class="fas fa-file" aria-hidden="true"></i>Solicitar</a>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -51,6 +57,7 @@
 
     </div>
 </main>
+<br>
 
 <footer class="footer"  th:insert="fragments/footer :: footer"></footer>
 

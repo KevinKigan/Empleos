@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,7 +20,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Logger;
 
@@ -45,9 +49,19 @@ public class VancantsController {
      * @return
      */
     @GetMapping("/view/{id}")
-    public String showVacant(@PathVariable("id") int idVacant, Model model){
+    public String showVacant(@PathVariable("id") int idVacant, Authentication auth, HttpSession session, Model model){
         Vacant vacant = vacantsService.findById(idVacant);
-        model.addAttribute("vacant", vacant);
+        if(!model.containsAttribute("vacant")) {
+            model.addAttribute("vacant", vacant);
+        }
+        if(auth!=null){
+            String username = auth.getName();
+            auth.getAuthorities().stream().forEach(_rol-> {
+                System.out.println("User: " + username + " ROL -> " + _rol.getAuthority());
+                model.addAttribute("rol", _rol.getAuthority());
+                System.out.println("El rol es:" + _rol.getAuthority());
+            });
+        }
         return "vacants/detail";
     }
 
@@ -86,7 +100,7 @@ public class VancantsController {
     /**
      * Mertodo para crear una vacante
      *
-     * @param vacant
+     * @param
      * @param model
      * @return
      */
