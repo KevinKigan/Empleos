@@ -26,7 +26,7 @@ public class Request {
 	private User user;
 
 	public Request() {
-
+		this.date = new Date();
 	}
 
 	public Request(Date date) {

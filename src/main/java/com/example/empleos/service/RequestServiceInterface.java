@@ -21,4 +21,6 @@ public interface RequestServiceInterface {
 	
 	// EJERCICIO: Método que recupera todas las Solicitudes (con paginación) guardadas en la BD (solo disponible para usuarios con perfil ADMINISTRADOR/SUPERVISOR).
 	Page<Request> findAll(Pageable page);
+	List<Request> findAllUser(int idUser);
+	boolean findByVacantAndUser(int idVacant, int idUser);
 }

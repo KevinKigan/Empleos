@@ -3,6 +3,8 @@ package com.example.empleos.controller;
 import com.example.empleos.model.User;
 import com.example.empleos.model.Vacant;
 import com.example.empleos.service.CategoriesServiceInterface;
+import com.example.empleos.service.RequestServiceInterface;
+import com.example.empleos.service.UsersServiceInterface;
 import com.example.empleos.service.VacantsServiceInterface;
 import com.example.empleos.util.UploadFiles;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,14 @@ public class VancantsController {
     @Autowired
     private CategoriesServiceInterface categoriesService;
 
+    @Autowired
+    private RequestServiceInterface requestService;
+
+    @Autowired
+    private UsersServiceInterface userService;
+
+
+
     private static Logger LOGGER = Logger.getLogger(VancantsController.class.getName());
 
     /**
@@ -56,10 +66,12 @@ public class VancantsController {
         }
         if(auth!=null){
             String username = auth.getName();
+            User user = userService.findByUsername(username);
+            boolean bool = requestService.findByVacantAndUser(idVacant, user.getId());
+            model.addAttribute("isRequest", requestService.findByVacantAndUser(idVacant, user.getId()));
             auth.getAuthorities().stream().forEach(_rol-> {
-                System.out.println("User: " + username + " ROL -> " + _rol.getAuthority());
+                LOGGER.info("User: " + username + " ROL -> " + _rol.getAuthority());
                 model.addAttribute("rol", _rol.getAuthority());
-                System.out.println("El rol es:" + _rol.getAuthority());
             });
         }
         return "vacants/detail";

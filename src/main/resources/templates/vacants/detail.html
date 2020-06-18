@@ -39,7 +39,7 @@
                         <div class="card bg-light mb-3" >
                             <div class="card-body">
                                 <h5 class="card-title">Detalles de la oferta de trabajo</h5>
-<!--                                utext interpreta las etiquetas html -->
+                                <!--                                utext interpreta las etiquetas html -->
                                 <p class="card-text" th:utext="${vacant.details}"></p>
                             </div>
                         </div>
@@ -47,7 +47,10 @@
                             <a class="btn btn-info" href="#" role="button" th:href="@{/index}">Para solicitar la vacante se necesita estar registrado</a>&nbsp;
                         </div>
                         <div sec:authorize="isAuthenticated()">
-                            <a th:if="${rol == 'USUARIO' }" class="btn btn-primary" th:href="@{/requests/create/{idVacant} (idVacant = ${vacant.id})}" role="button" title="Quiero solicitar esta oferta de trabajo."><i class="fas fa-file" aria-hidden="true"></i>Solicitar</a>
+                            <div th:if="${rol == 'USUARIO' }">
+                                <a th:if="${isRequest}" class="alert alert-primary" role="alert"><i class="fas fa-file" aria-hidden="true"></i>Vacante ya solicitada</a>
+                                <a th:unless="${isRequest}" class="btn btn-primary" th:href="@{/requests/create/{idVacant} (idVacant = ${vacant.id})}" role="button" title="Quiero solicitar esta oferta de trabajo."><i class="fas fa-file" aria-hidden="true"></i>Solicitar</a>
+                            </div>
                         </div>
 
                     </div>

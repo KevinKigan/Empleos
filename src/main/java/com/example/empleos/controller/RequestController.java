@@ -16,6 +16,9 @@ import com.example.empleos.util.UploadFiles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,33 +48,50 @@ public class RequestController {
 	 */
 //	@Value("${empleosapp.ruta.cv}")
 //	private String ruta;
-		
-    /**
+
+	/**
 	 * Metodo que muestra la lista de solicitudes sin paginacion
 	 * Seguridad: Solo disponible para un usuarios con perfil ADMINISTRADOR/SUPERVISOR.
 	 * @return
 	 */
-    @GetMapping("/index") 
+	@GetMapping("/index")
 	public String showIndex() {
 
-    	// EJERCICIO
+		// EJERCICIO
 		return "requests/listRequests";
-		
+
 	}
-    
-    /**
+
+
+	/**
+	 * Metodo que muestra la lista de solicitudes con paginacion
+	 * Seguridad: Solo disponible para usuarios.
+	 * @return
+	 */
+	@GetMapping("/indexPaginateUser")
+	public String showIndexPaginateUser(Authentication auth, Model model) {
+		User user = userService.findByUsername(auth.getName());
+		//model.addAttribute("first",requestService.findAllUser(user.getId()).isFirst());
+		//model.addAttribute("last",requestService.findAllUser(user.getId()).isLast());
+		//final Page<Uaer> page = new PageImpl<>(theListOfSomething);
+		Page<Request> page =  new PageImpl<>(requestService.findAllUser(user.getId()));
+		model.addAttribute("requestsUser", page);
+		return "requests/listRequestsUser";
+
+	}
+	/**
 	 * Metodo que muestra la lista de solicitudes con paginacion
 	 * Seguridad: Solo disponible para usuarios con perfil ADMINISTRADOR/SUPERVISOR.
 	 * @return
 	 */
 	@GetMapping("/indexPaginate")
 	public String showIndexPaginate() {
-		
+
 		// EJERCICIO
 		return "requests/listRequests";
-		
+
 	}
-    
+
 	/**
 	 * Método para renderizar el formulario para solicitar una Vacante
 	 * Seguridad: Solo disponible para un usuario con perfil USUARIO.
@@ -81,25 +101,19 @@ public class RequestController {
 	public String create(@PathVariable("idVacant") int idVacant, Model model) {
 		model.addAttribute("vacant",vacantsService.findById(idVacant));
 		return "requests/formRequest";
-		
+
 	}
-	
+
 	/**
 	 * Método que guarda la solicitud enviada por el usuario en la base de datos
 	 * Seguridad: Solo disponible para un usuario con perfil USUARIO.
 	 * @return
 	 */
 	@PostMapping("/save")
-	public String save(Request request, BindingResult bindingResult, RedirectAttributes attributes, @RequestParam("fileCV") MultipartFile multiPart, Authentication auth){
-		String username = auth.getName();
-		if(bindingResult.hasErrors()){
-			for (ObjectError error: bindingResult.getAllErrors()){
-				LOGGER.severe("Error: "+error.getDefaultMessage());
-			}
-			return "requests/formRequest";
-		}
+	public String save(Request request, BindingResult bindingResult, RedirectAttributes attributes, @RequestParam("file") MultipartFile multiPart, Authentication auth){
 
-		if (!multiPart.isEmpty()) {
+		String username = auth.getName();
+		if (multiPart.getName()!="") {
 			String fileName = UploadFiles.saveFile(multiPart, path);
 			if (fileName!=null){
 				request.setFile(fileName);
@@ -112,21 +126,20 @@ public class RequestController {
 		request.setDate(new Date());
 		requestService.save(request);
 		attributes.addFlashAttribute("msg", "Gracias por enviar tu CV!");
-		requestService.save(request);
 		return "redirect:/home";
 	}
 
 	/**
 	 * Método para eliminar una solicitud
-	 * Seguridad: Solo disponible para usuarios con perfil ADMINISTRADOR/SUPERVISOR. 
+	 * Seguridad: Solo disponible para usuarios con perfil ADMINISTRADOR/SUPERVISOR.
 	 * @return
 	 */
 	@GetMapping("/delete/{id}")
 	public String delete() {
-		
+
 		// EJERCICIO
 		return "redirect:/requests/indexPaginate";
-		
+
 	}
 
 	@ModelAttribute // Model Attribute añade al modelo atributos que pueden ser utilizados por el controlador
@@ -143,5 +156,5 @@ public class RequestController {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		webDataBinder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
 	}
-	
+
 }
