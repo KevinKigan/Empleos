@@ -39,22 +39,22 @@
                 </tr>
               </thead>
               <tbody>
-                <tr th:each="solicitud : ${solicitudes.content}">
-                  <td th:text="${solicitud.vacante.categoria.nombre}">Finanzas</td>
-                  <td th:text="${solicitud.vacante.nombre}">Contador Público</td>
-                  <td th:text="${solicitud.usuario.nombre}">Maria Gómez</td>
-                  <td th:text="${#dates.format(solicitud.fecha, 'dd-MM-yyyy')}">12-01-2019</td>
+                <tr th:each="request : ${requests.content}">
+                  <td th:text="${request.vacant.category.name}">Finanzas</td>
+                  <td th:text="${request.vacant.name}">Contador Público</td>
+                  <td th:text="${request.user.name}">Maria Gómez</td>
+                  <td th:text="${#dates.format(request.date, 'dd-MM-yyyy')}">12-01-2019</td>
                   <td>                    
-                    <a th:href="@{/solicitudes/delete/{id} (id=${solicitud.id}) }" onclick="return confirm('¿Estas seguro?')" class="btn btn-success btn-sm" role="button" title="Eliminar el registro."><i class="fas fa-trash" aria-hidden="true"></i></a>                    
-                    <a th:href="@{/cv/{archivo} (archivo=${solicitud.archivo}) } " target="_blank" class="btn btn-success btn-sm" role="button" title="Descargar Curriculm Vitae."><i class="fas fa-download" aria-hidden="true"></i></a>
+                    <a th:href="@{/requests/delete/{id} (id=${request.id}) }" onclick="return confirm('¿Estas seguro?')" class="btn btn-success btn-sm" role="button" title="Eliminar el registro."><i class="fas fa-trash" aria-hidden="true"></i></a>
+<!--                    <a th:href="@{/cv/{file} (file=${request.file}) } " target="_blank" class="btn btn-success btn-sm" role="button" title="Descargar Curriculm Vitae."><i class="fas fa-download" aria-hidden="true"></i></a>-->
                   </td>
                 </tr>
               </tbody>
             </table>
-            <nav th:if="${solicitudes.totalPages > 0}" aria-label="Page navigation example" >
-			  <ul class="pagination">         
-			    <li class="page-item"><a th:href="@{/solicitudes/indexPaginate(page=${solicitudes.number - 1})}" class="page-link">Anterior</a></li>			    
-			    <li class="page-item"><a th:href="@{/solicitudes/indexPaginate(page=${solicitudes.number + 1})}" class="page-link">Siguiente</a></li>
+            <nav th:if="${requests.totalPages > 0}" aria-label="Page navigation example" >
+			  <ul class="pagination">
+                <li th:if="${!first}" class="page-item"><a th:href="@{/requests/indexPaginate(page=${requests.number - 1})}" class="page-link">Anterior</a></li>
+                <li th:if="${!last}" class="page-item"><a th:href="@{/requests/indexPaginate(page=${requests.number + 1})}" class="page-link">Siguiente</a></li>
 			  </ul>
 			</nav>
           </div>

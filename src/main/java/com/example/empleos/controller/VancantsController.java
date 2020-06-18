@@ -10,6 +10,7 @@ import com.example.empleos.util.UploadFiles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -67,8 +68,15 @@ public class VancantsController {
         if(auth!=null){
             String username = auth.getName();
             User user = userService.findByUsername(username);
-            boolean bool = requestService.findByVacantAndUser(idVacant, user.getId());
-            model.addAttribute("isRequest", requestService.findByVacantAndUser(idVacant, user.getId()));
+            try {
+                if (requestService.findByVacantAndUser(idVacant, user.getId())) {
+                    model.addAttribute("isRequest", true);
+                } else {
+                    model.addAttribute("isRequest", false);
+                }
+            }catch(Exception e){
+                model.addAttribute("isRequest", false);
+            }
             auth.getAuthorities().stream().forEach(_rol-> {
                 LOGGER.info("User: " + username + " ROL -> " + _rol.getAuthority());
                 model.addAttribute("rol", _rol.getAuthority());
@@ -175,6 +183,7 @@ public class VancantsController {
      */
     @GetMapping("/indexPaginate")
     public String showIndexPaginate(Model model, Pageable page){
+        Page<Vacant> p = vacantsService.findAll(page);
         model.addAttribute("first",vacantsService.findAll(page).isFirst());
         model.addAttribute("last",vacantsService.findAll(page).isLast());
         model.addAttribute("vacants", vacantsService.findAll(page));

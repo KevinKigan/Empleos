@@ -42,25 +42,6 @@ public class RequestController {
 	@Value("${empleos.pathCV}")
 	private String path;
 	private static Logger LOGGER = Logger.getLogger(RequestController.class.getName());
-	/**
-	 * EJERCICIO: Declarar esta propiedad en el archivo application.properties. El valor sera el directorio
-	 * en donde se guardarán los archivos de los Curriculums Vitaes de los usuarios.
-	 */
-//	@Value("${empleosapp.ruta.cv}")
-//	private String ruta;
-
-	/**
-	 * Metodo que muestra la lista de solicitudes sin paginacion
-	 * Seguridad: Solo disponible para un usuarios con perfil ADMINISTRADOR/SUPERVISOR.
-	 * @return
-	 */
-	@GetMapping("/index")
-	public String showIndex() {
-
-		// EJERCICIO
-		return "requests/listRequests";
-
-	}
 
 
 	/**
@@ -69,13 +50,12 @@ public class RequestController {
 	 * @return
 	 */
 	@GetMapping("/indexPaginateUser")
-	public String showIndexPaginateUser(Authentication auth, Model model) {
+	public String showIndexPaginateUser(Authentication auth, Model model, Pageable pageable) {
 		User user = userService.findByUsername(auth.getName());
-		//model.addAttribute("first",requestService.findAllUser(user.getId()).isFirst());
-		//model.addAttribute("last",requestService.findAllUser(user.getId()).isLast());
-		//final Page<Uaer> page = new PageImpl<>(theListOfSomething);
-		Page<Request> page =  new PageImpl<>(requestService.findAllUser(user.getId()));
+		Page<Request> page = (requestService.findAllUser(pageable, user.getId()));
 		model.addAttribute("requestsUser", page);
+		model.addAttribute("first",page.isFirst());
+		model.addAttribute("last",page.isLast());
 		return "requests/listRequestsUser";
 
 	}
@@ -85,11 +65,12 @@ public class RequestController {
 	 * @return
 	 */
 	@GetMapping("/indexPaginate")
-	public String showIndexPaginate() {
-
-		// EJERCICIO
+	public String showIndexPaginate(Authentication auth, Model model, Pageable pageable) {
+		Page<Request> page = (requestService.findAll(pageable));
+		model.addAttribute("requests", page);
+		model.addAttribute("first",page.isFirst());
+		model.addAttribute("last",page.isLast());
 		return "requests/listRequests";
-
 	}
 
 	/**
@@ -119,9 +100,7 @@ public class RequestController {
 				request.setFile(fileName);
 			}
 		}
-		// Buscamos el objeto Usuario en BD
 		User user = userService.findByUsername(username);
-
 		request.setUser(user);
 		request.setDate(new Date());
 		requestService.save(request);
@@ -135,11 +114,12 @@ public class RequestController {
 	 * @return
 	 */
 	@GetMapping("/delete/{id}")
-	public String delete() {
-
-		// EJERCICIO
+	public String delete(@PathVariable("id") int idRequest, RedirectAttributes attributes) {
+		Request tempRequest = requestService.findById(idRequest);
+		LOGGER.info("Borrando solicitud: ID -> "+ tempRequest.getId()+" | "+ "Nombre de la vacante -> " +tempRequest.getVacant().getName());
+		requestService.delete(idRequest);
+		attributes.addFlashAttribute ("msg", "La solicitud "+tempRequest.getVacant().getName()+" fue eliminada");
 		return "redirect:/requests/indexPaginate";
-
 	}
 
 	@ModelAttribute // Model Attribute añade al modelo atributos que pueden ser utilizados por el controlador

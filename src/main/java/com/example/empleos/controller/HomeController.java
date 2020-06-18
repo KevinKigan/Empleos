@@ -173,10 +173,6 @@ public class HomeController {
             LOGGER.severe("No se ha podido guardar al usuario "+user.getName());
             return "users/formSign";
         }
-
-
-
-
         return "redirect:/login";
     }
 

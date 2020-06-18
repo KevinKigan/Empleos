@@ -45,9 +45,10 @@ public class RequestService implements RequestServiceInterface {
 	public Page<Request> findAll(Pageable page) {
 		return requestsRepo.findAll(page);
 	}
+
 	@Override
-	public List<Request> findAllUser(int idUser) {
-		return requestsRepo.findByUser(usersRepo.findById(idUser).get());
+	public Page<Request> findAllUser(Pageable page, int idUser) {
+		return requestsRepo.findByUser(page, usersRepo.findById(idUser).get());
 	}
 
 	@Override
