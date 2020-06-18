@@ -46,14 +46,14 @@ public class UsersController {
 
 
 
-	@GetMapping("/delete/{id}")
-	public String delete(@PathVariable("id") int idUser, RedirectAttributes attributes) {
-		User tempUser = userService.findById(idUser);
-		LOGGER.info("Borrando vacante: ID -> "+ tempUser.getId()+" | "+ "Nombre -> " +tempUser.getName());
-		userService.delete(idUser);
-		attributes.addFlashAttribute("msg", "El usuario " + tempUser.getName() + " fue eliminado!.");
-		return "redirect:/users/index";
-	}
+//	@GetMapping("/delete/{id}")
+//	public String delete(@PathVariable("id") int idUser, RedirectAttributes attributes) {
+//		User tempUser = userService.findById(idUser);
+//		userService.delete(idUser);
+//		LOGGER.info("Borrando vacante: ID -> "+ tempUser.getId()+" | "+ "Nombre -> " +tempUser.getName());
+//		attributes.addFlashAttribute("msg", "El usuario " + tempUser.getName() + " fue eliminado!.");
+//		return "redirect:/users/index";
+//	}
 
 
 	/**
@@ -83,7 +83,7 @@ public class UsersController {
 	@GetMapping("/blockUnblock/{id}")
 	public String blockUnblock(@PathVariable("id") int idUser, Model model){
 		userService.blockUnblock(idUser);
-		return "redirect:/users/index";
+		return "redirect:/users/indexPaginate";
 	}
 
 	@ModelAttribute // Model Attribute añade al modelo atributos que pueden ser utilizados por el controlador

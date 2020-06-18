@@ -47,7 +47,7 @@
                   <td th:text="${user.status == 1 ? 'Activo' : 'Bloqueado' }">Activo</td>
 
                   <td>
-                    <a th:href="@{/users/delete/{id} (id=${user.id}) }" onclick="return confirm('¿Estas seguro?')" class="btn btn-success btn-sm" role="button" title="Eliminar"><i class="fas fa-trash" aria-hidden="true"></i></a>
+<!--                    <a th:href="@{/users/delete/{id} (id=${user.id}) }" onclick="return confirm('¿Estas seguro?')" class="btn btn-success btn-sm" role="button" title="Eliminar"><i class="fas fa-trash" aria-hidden="true"></i></a>-->
                     <a th:href="@{/users/blockUnblock/{id} (id=${user.id}) }" onclick="return confirm('¿Quiere bloquear el acceso al usuario?')" class="btn btn-success btn-sm" role="button" title="Bloquear el acceso al sistema para este usuario."><i class="fas fa-lock" aria-hidden="true"></i></a>
                     <a th:href="@{/users/edit/{id}  (id=${user.id})}" class="btn btn-success btn-sm" role="button" title="Editar el registro."><i class="fas fa-pencil-alt" aria-hidden="true"></i></a>
                   </td>
