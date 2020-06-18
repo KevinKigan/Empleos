@@ -3,12 +3,17 @@ package com.example.empleos.controller;
 import com.example.empleos.model.User;
 import com.example.empleos.model.Vacant;
 import com.example.empleos.service.CategoriesServiceInterface;
+import com.example.empleos.service.RequestServiceInterface;
+import com.example.empleos.service.UsersServiceInterface;
 import com.example.empleos.service.VacantsServiceInterface;
 import com.example.empleos.util.UploadFiles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,7 +23,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Logger;
 
@@ -35,6 +42,14 @@ public class VancantsController {
     @Autowired
     private CategoriesServiceInterface categoriesService;
 
+    @Autowired
+    private RequestServiceInterface requestService;
+
+    @Autowired
+    private UsersServiceInterface userService;
+
+
+
     private static Logger LOGGER = Logger.getLogger(VancantsController.class.getName());
 
     /**
@@ -45,9 +60,28 @@ public class VancantsController {
      * @return
      */
     @GetMapping("/view/{id}")
-    public String showVacant(@PathVariable("id") int idVacant, Model model){
+    public String showVacant(@PathVariable("id") int idVacant, Authentication auth, HttpSession session, Model model){
         Vacant vacant = vacantsService.findById(idVacant);
-        model.addAttribute("vacant", vacant);
+        if(!model.containsAttribute("vacant")) {
+            model.addAttribute("vacant", vacant);
+        }
+        if(auth!=null){
+            String username = auth.getName();
+            User user = userService.findByUsername(username);
+            try {
+                if (requestService.findByVacantAndUser(idVacant, user.getId())) {
+                    model.addAttribute("isRequest", true);
+                } else {
+                    model.addAttribute("isRequest", false);
+                }
+            }catch(Exception e){
+                model.addAttribute("isRequest", false);
+            }
+            auth.getAuthorities().stream().forEach(_rol-> {
+                LOGGER.info("User: " + username + " ROL -> " + _rol.getAuthority());
+                model.addAttribute("rol", _rol.getAuthority());
+            });
+        }
         return "vacants/detail";
     }
 
@@ -86,7 +120,7 @@ public class VancantsController {
     /**
      * Mertodo para crear una vacante
      *
-     * @param vacant
+     * @param
      * @param model
      * @return
      */
@@ -149,6 +183,7 @@ public class VancantsController {
      */
     @GetMapping("/indexPaginate")
     public String showIndexPaginate(Model model, Pageable page){
+        Page<Vacant> p = vacantsService.findAll(page);
         model.addAttribute("first",vacantsService.findAll(page).isFirst());
         model.addAttribute("last",vacantsService.findAll(page).isLast());
         model.addAttribute("vacants", vacantsService.findAll(page));

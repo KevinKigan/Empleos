@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>EmpleosApp | Listado de Solicitudes de Empleo</title>
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link th:href="@{/bootstrap/css/jumbotron.css}" rel="stylesheet">
+    <link th:href="@{/bootstrap/css/sticky-footer-navbar.css}" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" rel="stylesheet" >
+</head>
+<body>
+<header th:insert="fragments/header :: main-menu"></header>
+<main role="main">
+    <hr>
+    <div class="container">
+
+        <div class="card">
+            <h4 class="card-header"><strong>Listado de Solicitudes de Empleo</strong></h4>
+            <div class="card-body">
+                <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
+                <table class="table table-hover">
+                    <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Logo</th>
+                        <th scope="col">Categoría</th>
+                        <th scope="col">Vacante</th>
+                        <th scope="col">Fecha Solicitada</th>
+                        <th scope="col">Fecha Vacante</th>
+                        <th scope="col">Detalles</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="request : ${requestsUser.content}">
+
+                        <td> <img class="rounded mx-auto d-block" th:src="@{/logos/{img} (img = ${request.vacant.image})}"
+                                  alt="Generic placeholder image" width="50" height="50"> </td>
+                        <td th:text="${request.vacant.category.name}"></td>
+                        <td th:text="${request.vacant.name}"></td>
+                        <td th:text="${#dates.format(request.date, 'dd-MM-yyyy')}"></td>
+                        <td th:text="${#dates.format(request.vacant.dateRelease, 'dd-MM-yyyy')}"></td>
+                        <td><a th:href="@{/vacants/view/{id} (id=${request.vacant.id}) }" class="btn btn-primary" role="button" title="Detalles de la vacante">Detalle</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <nav th:if="${requestsUser.totalPages > 0}" aria-label="Page navigation example" >
+                    <ul class="pagination">
+                        <li th:if="${!first}" class="page-item"><a th:href="@{/requests/indexPaginateUser(page=${requestsUser.number - 1})}" class="page-link">Anterior</a></li>
+                        <li th:if="${!last}" class="page-item"><a th:href="@{/requests/indexPaginateUser(page=${requestsUser.number + 1})}" class="page-link">Siguiente</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div> <!-- /container -->
+
+</main>
+<footer class="footer"  th:insert="fragments/footer :: footer"></footer>
+</body>
+</html>
