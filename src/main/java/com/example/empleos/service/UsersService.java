@@ -1,7 +1,6 @@
 package com.example.empleos.service;
 
 import com.example.empleos.model.User;
-import com.example.empleos.model.Vacant;
 import com.example.empleos.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,15 +26,7 @@ public class UsersService implements UsersServiceInterface {
         usersRepo.save(user);
     }
 
-    /**
-     * Metodo para borrar un usuario
-     *
-     * @param idUser Id del usuario a eliminar
-     */
-    @Override
-    public void delete(int idUser) {
-        usersRepo.deleteById(idUser);
-    }
+
 
     /**
      * Metodo para buscar todos los usuarios

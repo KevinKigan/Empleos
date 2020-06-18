@@ -11,8 +11,11 @@ import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -60,10 +63,9 @@ public class HomeController {
      * @return
      */
     @GetMapping("/index")
-    public String showIndex(Authentication auth, HttpSession session) {
+    public String showIndex(Authentication auth, HttpSession session, Model model) {
         String username = auth.getName();
         auth.getAuthorities().stream().forEach(rol-> System.out.println("User: "+username+" ROL -> "+rol.getAuthority()));
-        System.out.println(username);
         //HttpSesion para almacenar satos en la sesion del usuario
         if(session.getAttribute("user")==null) {
             User user = userService.findByUsername(username);
@@ -81,22 +83,6 @@ public class HomeController {
         Vacant vacantSearch = new Vacant();
         vacantSearch.reset();
         model.addAttribute("search", vacantSearch);
-    }
-
-    /**
-     * Metodo para mostrar los detalles de una vacante
-     *
-     * @param model Modelo para la vista
-     * @return Nombre del archivo html
-     */
-    @GetMapping("/detail")
-    public String showDetailVacant(Model model) {
-        Vacant vacant = new Vacant();
-        vacant.setName("Ingeniero de Comunicaciones");
-        vacant.setDescription("Se solicita ingeniero para dar soporte a intranet");
-        vacant.setSalary(9700.0);
-        model.addAttribute("vacant", vacant);
-        return "detailVacant";
     }
 
     /**
@@ -159,7 +145,7 @@ public class HomeController {
      * @return
      */
     @PostMapping("/save")
-    public String save(User user, BindingResult bindingResult, RedirectAttributes attributes, Model model) {
+    public String save(User user, BindingResult bindingResult, Authentication auth,HttpServletRequest httpServletRequest, RedirectAttributes attributes, Model model, HttpSession session) {
         if (bindingResult.hasErrors()) {
             for (ObjectError error : bindingResult.getAllErrors()) {
                 LOGGER.severe("Error: " + error.getDefaultMessage());
@@ -171,21 +157,23 @@ public class HomeController {
         Profile profile = new Profile();
         profile.setId(3); // Perfil USUARIO
         user.addProfile(profile);
-
         try {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             System.out.println("Password encriptado: " + user.getPassword());
             userService.save(user);
             attributes.addFlashAttribute("msg", "El usuario " + user.getName() + " fue guardado correctamente");
+            //HttpSesion para almacenar satos en la sesion del usuario
+            if(session.getAttribute("user")==null) {
+                user.setPassword(null);
+                session.setAttribute("user", user);
+            }
             LOGGER.info(user.toString());
         }catch(Exception e){
             model.addAttribute("msg", "No se ha podido guardar al usuario "+user.getName());
             LOGGER.severe("No se ha podido guardar al usuario "+user.getName());
             return "users/formSign";
         }
-
-
-        return "redirect:/home";
+        return "redirect:/login";
     }
 
     @GetMapping("/bycript/{text}")
